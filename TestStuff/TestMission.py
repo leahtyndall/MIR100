@@ -1,5 +1,7 @@
 import requests
 import json
+import Missions
+import Sounds
 #--------------------------------------------------------------------------------------------------------------------------
 # MiR100 IP and credentials
 mirIP = "192.168.30.17"
@@ -38,19 +40,25 @@ def clearqueue():
     return mirRequest("DELETE", "/mission_queue")
                       
                       
-#def goto_leahsDesk(mission_id):
- #   data = {"mission_id": mission_id}
-  #  return mirRequest("POST","/mission_queue", data)
+def goto(mission_id):
+    data = {"mission_id": mission_id}
+    return mirRequest("POST","/mission_queue", data)
 
 #--------------------------------------------------------------------------------------------------------------------------
 #main method
 if __name__ == "__main__":
 
+    i = 0
+
     print("on my way dawg")
     clearqueue()
-    #goto_leahsDesk("37d167ab-1640-11f1-acd6-f44d306dcb63")
 
+    while i<=2:
+        goto(Missions.End)
+        goto(Missions.Start)
+        i += 1
 
+    
 
 
 
