@@ -1,7 +1,7 @@
 import requests
 import json
-import Missions
-import Sounds
+import TestStuff.MissionsTest as MissionsTest
+import TestStuff.SoundsTest as SoundsTest
 #--------------------------------------------------------------------------------------------------------------------------
 # MiR100 IP and credentials
 mirIP = "192.168.30.17"
@@ -54,11 +54,11 @@ if __name__ == "__main__":
     clearqueue()
 
     while i<=2:
-        goto(Missions.End)
-        goto(Missions.Start)
+        goto(MissionsTest.End)
+        goto(MissionsTest.Start)
         i += 1
 
-    
+
 
 
 

@@ -1,6 +1,6 @@
 import requests
 import json
-import Missions
+import TestStuff.MissionsTest as MissionsTest
 #--------------------------------------------------------------------------------------------------------------------------
 # MiR100 IP and credentials
 mirIP = "192.168.30.17"
@@ -51,7 +51,7 @@ if __name__ == "__main__":
 
     print("on my way dawg")
     clearqueue()
-    doMission(Missions.MarathonTest)
+    doMission(MissionsTest.MarathonTest)
 
 
 
