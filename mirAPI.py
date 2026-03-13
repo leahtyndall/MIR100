@@ -22,7 +22,7 @@ def mirRequest(method, endpoint, data = None):   #method=get/post/delete
         #auth=(username, password)
     )
 
-    print(response.text)
+    #print(response.text)
     try:
         return response.json()   #translates & returns response from robot to us
     except ValueError:
