@@ -2,9 +2,13 @@ import requests
 import json
 import ShellyPy
 
-ip = "192.168.30.25"
+
+#lab
+ipX = "192.168.30.25"
+#home
+ip = "192.168.18.49"
 id = "shellyplus1pm-fcb467285ecc"
-baseURL = "http://192.168.30.25"
+baseURL = "http://192.168.18.49" #change backl to lab!!
 
 #helper funcs--------------------------------------
 #REQUEST---------------
@@ -17,38 +21,27 @@ def Request(method, url, body = None):
         url,
         json=body
     )
-    
-    print(response.text)
-    return print(response.text)
+    data = response.json()
+    return print(json.dumps(data, indent = 4))
 #GET--------------
 def get(url):
-    url = baseURL + url
+    url = baseURL + "/rpc/" + url
     response = requests.get(
         url
     )
-
-    return response.json()
+    data = response.json()
+    return print(json.dumps(data, indent = 4))
 #POST--------------
 def post(url, body):
-    url = baseURL + url
+    url = baseURL + "/rpc/" + url
     response = requests.post(
         url,
         body
     )
-
-    return response.json()
+    data = response.json()
+    return print(json.dumps(data, indent = 4))
 #testing----
-#funcs----------------------------------------------
-def info():
-    return get("/shelly")
 
-
-
-#main-----------------------------------------------
-if __name__ == "__main__":
-   
-   print(info())
-    
 
 
 
