@@ -1,4 +1,5 @@
 import APImir
+import shellyStatsForMir
 import json
 
 statusData = APImir.mirRequest("GET", "/status") 
@@ -19,8 +20,10 @@ def timeRemaining():
     text = f"{hrs} hours, {min} minutes, {sec} seconds"
 
     return text
-        
-        
+
+def pistonStatus():
+    status = shellyStatsForMir()
+    return status
 
 
 #main------------------------------------------
