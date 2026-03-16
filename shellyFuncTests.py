@@ -17,7 +17,7 @@ def status():
 
 def status2():
     print("Status: ",flush=True)
-    status = get("Zigbee.GetStatus")
+    status = get("Webhook.List")
     return status
 
 def extend():
