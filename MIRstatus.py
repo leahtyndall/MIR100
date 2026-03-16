@@ -1,7 +1,7 @@
-import mirAPI
+import APImir
 import json
 
-statusData = mirAPI.mirRequest("GET", "/status") 
+statusData = APImir.mirRequest("GET", "/status") 
 
 def getBattery():
     
