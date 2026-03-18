@@ -4,11 +4,10 @@ import ShellyPy
 
 
 #lab
-ipX = "192.168.30.25"
-#home
-ip = "192.168.18.49"
+ipX = "192.168.30.11"
+
 id = "shellyplus1pm-fcb467285ecc"
-baseURL = "http://192.168.18.49" #change backl to lab!!
+baseURL = "http://192.168.30.11" #change backl to lab!!
 
 #helper funcs--------------------------------------
 #REQUEST---------------
@@ -23,6 +22,8 @@ def Request(method, url, body = None):
     )
     data = response.json()
     return print(json.dumps(data, indent = 4))
+
+
 #GET--------------
 def get(url):
     url = baseURL + "/rpc/" + url
@@ -31,6 +32,8 @@ def get(url):
     )
     data = response.json()
     return print(json.dumps(data, indent = 4))
+
+
 #POST--------------
 def post(url, body):
     url = baseURL + "/rpc/" + url

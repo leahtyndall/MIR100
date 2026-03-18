@@ -1,0 +1,84 @@
+[
+    {
+        "name": "mirpiston1",
+        "id": "bfe90802d000270bdefwk3",
+        "key": "R>ibtHCe#GRfM?C6",
+        "mac": "38:2c:e5:37:5e:27",
+        "uuid": "e4a7330c1136c65e",
+        "sn": "100160396006D5",
+        "category": "tdq",
+        "product_name": "2\u8def\u5f00\u5173",
+        "product_id": "qyc2zhg57sy3eecw",
+        "biz_type": 0,
+        "model": "",
+        "sub": false,
+        "icon": "https://images.tuyaeu.com/smart/icon/ay1528249126144ckqum/a645103e0856896c2b0d65f1819569c7.png",
+        "mapping": {
+            "1": {
+                "code": "switch_1",
+                "type": "Boolean",
+                "values": {}
+            },
+            "2": {
+                "code": "switch_2",
+                "type": "Boolean",
+                "values": {}
+            },
+            "9": {
+                "code": "countdown_1",
+                "type": "Integer",
+                "values": {
+                    "unit": "s",
+                    "min": 0,
+                    "max": 86400,
+                    "scale": 0,
+                    "step": 1
+                }
+            },
+            "10": {
+                "code": "countdown_2",
+                "type": "Integer",
+                "values": {
+                    "unit": "s",
+                    "min": 0,
+                    "max": 86400,
+                    "scale": 0,
+                    "step": 1
+                }
+            },
+            "38": {
+                "code": "relay_status",
+                "type": "Enum",
+                "values": {
+                    "range": [
+                        "0",
+                        "1",
+                        "2"
+                    ]
+                }
+            },
+            "42": {
+                "code": "random_time",
+                "type": "String",
+                "values": "{\"maxlen\":255}"
+            },
+            "43": {
+                "code": "cycle_time",
+                "type": "String",
+                "values": "{\"maxlen\":255}"
+            },
+            "44": {
+                "code": "switch_inching",
+                "type": "String",
+                "values": "{\"maxlen\":255}"
+            },
+            "48": {
+                "code": "switch_interlock",
+                "type": "Raw",
+                "values": {}
+            }
+        },
+        "ip": "192.168.30.94",
+        "version": "3.4"
+    }
+]

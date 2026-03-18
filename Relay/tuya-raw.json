@@ -1,0 +1,140 @@
+{
+    "result": [
+        {
+            "active_time": 1758905713,
+            "biz_type": 0,
+            "category": "tdq",
+            "create_time": 1757588173,
+            "icon": "smart/icon/ay1528249126144ckqum/a645103e0856896c2b0d65f1819569c7.png",
+            "id": "bfe90802d000270bdefwk3",
+            "ip": "93.107.35.19",
+            "lat": "0",
+            "local_key": "R>ibtHCe#GRfM?C6",
+            "lon": "0",
+            "model": "",
+            "name": "mirpiston1",
+            "online": true,
+            "owner_id": "252758888",
+            "product_id": "qyc2zhg57sy3eecw",
+            "product_name": "2\u8def\u5f00\u5173",
+            "status": [
+                {
+                    "code": "switch_1",
+                    "value": false
+                },
+                {
+                    "code": "switch_2",
+                    "value": false
+                },
+                {
+                    "code": "countdown_1",
+                    "value": 0
+                },
+                {
+                    "code": "countdown_2",
+                    "value": 0
+                },
+                {
+                    "code": "relay_status",
+                    "value": "0"
+                },
+                {
+                    "code": "random_time",
+                    "value": ""
+                },
+                {
+                    "code": "cycle_time",
+                    "value": ""
+                },
+                {
+                    "code": "switch_inching",
+                    "value": "AAACAgAC"
+                },
+                {
+                    "code": "switch_interlock",
+                    "value": ""
+                }
+            ],
+            "sub": false,
+            "time_zone": "+01:00",
+            "uid": "eu1757587865021mDk2P",
+            "update_time": 1759222720,
+            "uuid": "e4a7330c1136c65e",
+            "mapping": {
+                "1": {
+                    "code": "switch_1",
+                    "type": "Boolean",
+                    "values": {}
+                },
+                "2": {
+                    "code": "switch_2",
+                    "type": "Boolean",
+                    "values": {}
+                },
+                "9": {
+                    "code": "countdown_1",
+                    "type": "Integer",
+                    "values": {
+                        "unit": "s",
+                        "min": 0,
+                        "max": 86400,
+                        "scale": 0,
+                        "step": 1
+                    }
+                },
+                "10": {
+                    "code": "countdown_2",
+                    "type": "Integer",
+                    "values": {
+                        "unit": "s",
+                        "min": 0,
+                        "max": 86400,
+                        "scale": 0,
+                        "step": 1
+                    }
+                },
+                "38": {
+                    "code": "relay_status",
+                    "type": "Enum",
+                    "values": {
+                        "range": [
+                            "0",
+                            "1",
+                            "2"
+                        ]
+                    }
+                },
+                "42": {
+                    "code": "random_time",
+                    "type": "String",
+                    "values": "{\"maxlen\":255}"
+                },
+                "43": {
+                    "code": "cycle_time",
+                    "type": "String",
+                    "values": "{\"maxlen\":255}"
+                },
+                "44": {
+                    "code": "switch_inching",
+                    "type": "String",
+                    "values": "{\"maxlen\":255}"
+                },
+                "48": {
+                    "code": "switch_interlock",
+                    "type": "Raw",
+                    "values": {}
+                }
+            }
+        }
+    ],
+    "success": true,
+    "t": 1759238005198,
+    "tid": "3f37cbdd9dff11f08e5dda57e8f5d0ed",
+    "file": {
+        "name": "tuya-raw.json",
+        "description": "Full raw list of Tuya devices.",
+        "account": "vmecagpjx9e798r7w9md",
+        "date": "2025-09-30T14:13:25.819344",
+        "tinytuya": "1.17.4"
+    }
+}
