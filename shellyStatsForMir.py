@@ -28,11 +28,11 @@ def currScriptID():
 
     return currScriptID
 
-
+#simplify down to important ones for dashboard***
 
 #main-----------------------------------------------
    
-info()
+#info()
 status()
-config()
-methods()
+#config()
+#methods()

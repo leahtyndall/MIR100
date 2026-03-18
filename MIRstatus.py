@@ -21,8 +21,8 @@ def timeRemaining():
 
     return text
 
-def pistonStatus():
-    status = shellyStatsForMir()
+def shellyStatus():
+    status = shellyStatsForMir.status()
     return status
 
 
@@ -31,5 +31,6 @@ if __name__ == "__main__":
 
     battery = getBattery()
     timeRem = timeRemaining()
+    print(shellyStatus())
     print(f"Battery: {battery}%")
     print(f"Time remaining: {timeRem}")

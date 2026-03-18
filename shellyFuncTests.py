@@ -1,4 +1,5 @@
 import APIshelly
+import shellyStatsForMir
 import time
 get = APIshelly.get
 request = APIshelly.Request
@@ -11,13 +12,13 @@ off = "&on=false"
 
 #funcs----------------------------------------------
 def status():
-    print("Status: ",flush=True)
+    print("Switch status: ",flush=True)
     status = get("Switch.GetStatus" + id)
     return status
 
 def status2():
     print("Status: ",flush=True)
-    status = get("Zigbee.GetStatus")
+    status = get("Webhook.List")
     return status
 
 def extend():
@@ -30,6 +31,11 @@ def retract():
     print("Retracting",flush=True)
     return retract
 
+def shellyStatus():
+    print("Shelly Status: ")
+    status = shellyStatsForMir.status()
+    return status
+
 
 
 
@@ -39,10 +45,13 @@ def retract():
 
 
 
-status2()
+
+shellyStatus()
+status()
 '''
 time.sleep(1)
 extend()
 status()
 time.sleep(3)
-retract()'''
+retract()
+'''
