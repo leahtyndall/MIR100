@@ -1,6 +1,6 @@
 import requests
 import json
-import TestStuff.MissionsTest as MissionsTest
+import MissionsTest
 #--------------------------------------------------------------------------------------------------------------------------
 # MiR100 IP and credentials
 mirIP = "192.168.30.17"

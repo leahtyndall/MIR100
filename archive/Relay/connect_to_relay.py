@@ -7,10 +7,10 @@ class TuyaDeviceController:
     def __init__(self, dev_id, address, local_key, version=3.4):
         """Initialize Tuya device controller"""
         self.device = tinytuya.OutletDevice(
-            dev_id=dev_id,
-            address=address,
-            local_key=local_key,
-            version=version
+            dev_id='bfe90802d000270bdefwk3',
+            address='192.168.30.116',  # Auto-discover IP
+            local_key='R>ibtHCe#GRfM?C6',
+            version=3.4
         )
         self.dev_id = dev_id
         self.device.set_socketTimeout(5)
@@ -122,8 +122,8 @@ class TuyaDeviceController:
 if __name__ == "__main__":
     # Initialize your device with the correct credentials
     controller = TuyaDeviceController(
-        dev_id='bfe90802d000270bdefwk3',
-        address='Auto',  # Auto-discover IP
+        dev_id='E86BEAEAF5F8',
+        address='192.168.30.116',  # Auto-discover IP
         local_key='R>ibtHCe#GRfM?C6',
         version=3.4
     )
@@ -138,6 +138,7 @@ if __name__ == "__main__":
     controller.get_status()
     print()
     
+
 
     print("🔴 Turning device OFF...")
     controller.turn_off(switch=1)
@@ -176,3 +177,4 @@ if __name__ == "__main__":
     print("   2. Automation/scheduling")
     print("   3. Multi-device control")
     print("   4. Voice assistant integration")
+    

@@ -1,5 +1,6 @@
 import APIshelly
-import shellyStatsForMir
+
+
 import time
 get = APIshelly.get
 request = APIshelly.Request
@@ -14,44 +15,62 @@ off = "&on=false"
 def status():
     print("Switch status: ",flush=True)
     status = get("Switch.GetStatus" + id)
-    return status
 
-def status2():
-    print("Status: ",flush=True)
-    status = get("Webhook.List")
-    return status
+    return status ##
 
-def extend():
+def open():
     extend = get("Switch.Set" + id+on)
-    print("Extending", flush = True)
+    print("Opening", flush = True)
     return extend
 
-def retract():
+def close():
     retract = get("Switch.Set" +id+off)
-    print("Retracting",flush=True)
+    print("Closing",flush=True)
     return retract
 
 def shellyStatus():
     print("Shelly Status: ")
-    status = shellyStatsForMir.status()
+    status = get("Shelly.GetStatus")
     return status
 
 
+'''def isOpen():
+    get("Switch.GetStatus"+id)
+    out = {"output":  }
+    response = out
+    return print(response)'''
 
 
 
+    
+
+
+
+    
 
 #main-----------------------------------------------
+#close()
 
-
-
-
-shellyStatus()
+"""
 status()
-'''
-time.sleep(1)
-extend()
+open()
+time.sleep(5)
 status()
-time.sleep(3)
-retract()
-'''
+close()
+time.sleep(5)
+status()
+
+open()
+time.sleep(15)
+close()
+
+status()
+
+#Stays open for ~40 seconds
+
+status()
+close()
+status()
+
+"""
+

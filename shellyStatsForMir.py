@@ -3,6 +3,7 @@
 #info about shelly
 
 import APIshelly
+import shellyGateControl
 
 get = APIshelly.get
 request = APIshelly.Request
@@ -12,6 +13,7 @@ post = APIshelly.post
 def info():
     info =  get("Shelly.GetDeviceInfo")
     return print(info)
+
 def status():
     status = get("Shelly.GetStatus")
     return print(status)
@@ -28,11 +30,15 @@ def currScriptID():
 
     return currScriptID
 
+
+
+
 #simplify down to important ones for dashboard***
 
 #main-----------------------------------------------
    
 #info()
-status()
+#status()
+
 #config()
 #methods()
