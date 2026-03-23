@@ -3,15 +3,15 @@ import shellyStatsForMir
 import shellyGateControl
 import json
 import pandas as pd
+import base64
 
-
-
+dataCache = {}
 statusData = APImir.mirRequest("GET", "/status") 
 
 def status():
-    data = APImir.mirRequest("GET", "/status") 
-    return print(json.dumps(data, indent = 4))
-
+    global dataCache
+    dataCache = APImir.mirRequest("GET", "/status") 
+    
 def imu():
     imu = statusData.get("imu_data")
     return print(imu)
@@ -31,6 +31,9 @@ def timeRemaining():
     #text = f"{hrs} hours, {min} minutes, {sec} seconds"
     return hrs, min, sec
     
+def mapData():
+    encoded = base64.b64encode(open("AllBays.png", "rb").read()).decode()
+    return encoded 
 
 def shellyStatus():
     status = shellyStatsForMir.status()
@@ -51,5 +54,9 @@ def reply():
       
     return print(f"Battery: {battery}% & Time remaining: {timeRem}")
 
+
+
+
 #df = pd.read_csv("MIRstatus.csv")
 #main------------------------------------------
+
