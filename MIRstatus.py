@@ -11,6 +11,15 @@ statusData = APImir.mirRequest("GET", "/status")
 def status():
     global dataCache
     dataCache = APImir.mirRequest("GET", "/status") 
+
+def isAvailable():
+    check = statusData.get('mission_text')
+    print(check)
+    true = 'Waiting for new missions...'
+    if check == true:
+        return True
+    else:
+        return False
     
 def imu():
     imu = statusData.get("imu_data")
@@ -43,16 +52,30 @@ def disToTarget():
     dis = statusData.get("distance_to_next_target")  
     return round(dis)
     
-def reply():
-    battery = getBattery()
-    timeRem = timeRemaining()
-    dis = disToTarget()
-    #print(shellyStatus())
-    print(f"Battery: {battery}%")
-    print(f"Time remaining: {timeRem}")
-    #print(f"Distance to next target: {dis}m")  
-      
-    return print(f"Battery: {battery}% & Time remaining: {timeRem}")
+def MissionQ():
+    curr = APImir.mirRequest('GET', '/mission_queue')
+    #curr = curr.json()
+
+    executing = [x for x in curr if x['state'] in ['Executing']]
+    pending = [y for y in curr if y['state'] in ['Pending']]
+
+    return executing, pending
+
+def getNet():
+    try:
+        if statusData.status_code == 200:
+            return 1 #connected
+        else:
+            return 2 # error
+    except:
+        return 3 #emergency stop/ offline
+    
+    print(all)
+    #return connected
+
+def getHookStat():
+
+    return 
 
 
 
@@ -60,3 +83,4 @@ def reply():
 #df = pd.read_csv("MIRstatus.csv")
 #main------------------------------------------
 
+print(getNet())
