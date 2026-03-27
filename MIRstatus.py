@@ -21,12 +21,7 @@ def isAvailable():
     else:
         return False
     
-def imu():
-    imu = statusData.get("imu_data")
-    return print(imu)
-
 def getBattery():
-    
     batteryStat = round(statusData.get("battery_percentage"))
     #return print[f"Battery: {round(batteryStat)}%"]
     return batteryStat
@@ -52,14 +47,17 @@ def disToTarget():
     dis = statusData.get("distance_to_next_target")  
     return round(dis)
     
-def MissionQ():
-    curr = APImir.mirRequest('GET', '/mission_queue')
-    #curr = curr.json()
+def misText():
+    text = statusData.get('mission_text')
+    return  text
 
-    executing = [x for x in curr if x['state'] in ['Executing']]
-    pending = [y for y in curr if y['state'] in ['Pending']]
+def modekeystate():
+    state = statusData.get('mode_key_state')
+    return state
 
-    return executing, pending
+
+
+
 
 def getNet():
     try:
@@ -82,5 +80,3 @@ def getHookStat():
 
 #df = pd.read_csv("MIRstatus.csv")
 #main------------------------------------------
-
-print(getNet())
