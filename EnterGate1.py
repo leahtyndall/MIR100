@@ -1,6 +1,6 @@
 import APImir
 import MIRstatus
-import misID
+import defs
 import shellyGateControl
 import time
 #
@@ -20,13 +20,13 @@ def disToTarget():
     return round(statusData.get("distance_to_next_target"))
 
 def openGate():
-    while disToTarget() > 4 or disToTarget() == 0:
+    while disToTarget() > 5 or disToTarget() == 0:
         time.sleep(1)
-        print(disToTarget())     
+        #print(disToTarget())     
 
         if disToTarget() < 5:
             break
-    print(f"{disToTarget()} Opening gates")
+    print(f"{disToTarget()}m away, Opening gates")
     return shellyGateControl.open()
 
 
@@ -34,21 +34,22 @@ def openGate():
 #main method
 if __name__ == "__main__":
 
-    #doMission(misID.MarathonTest)
-    '''
+
+ 
+    time.sleep(2)
     print("on my way dawg")
     clearqueue()
     #approach gate
-    doMission(misID.ApproachGate1)
+    doMission(defs.ApproachGate1)
     #check if open??????????
         #closed -> open it
     openGate()
     time.sleep(1)
-    doMission(misID.Desk1)
+    doMission(defs.Desk1)
     time.sleep(2)
-    doMission(misID.ExitGate1)
+   
+    doMission(defs.ExitGate1)
     openGate()
     time.sleep(2)
-    doMission(misID.LeahsDesk)
-   '''
-    #go to pos
+    doMission(defs.LeahsDesk)
+

@@ -1,4 +1,4 @@
-import misID, APImir
+import defs, APImir
 
 def doMission(mission_id):
     data = {"mission_id": mission_id}

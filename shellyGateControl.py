@@ -1,15 +1,12 @@
 import APIshelly
-
-
 import time
+
 get = APIshelly.get
 request = APIshelly.Request
 post = APIshelly.post
-
 id = "?id=0"
 on = "&on=true"
 off = "&on=false"
-
 
 #funcs----------------------------------------------
 def status():
@@ -49,28 +46,4 @@ def shellyStatus():
     
 
 #main-----------------------------------------------
-#close()
-
-"""
-status()
-open()
-time.sleep(5)
-status()
-close()
-time.sleep(5)
-status()
-
-open()
-time.sleep(15)
-close()
-
-status()
-
-#Stays open for ~40 seconds
-
-status()
-close()
-status()
-
-"""
 

@@ -1,11 +1,12 @@
 from dash import Dash, html, dcc, ctx
-import misID
+import defs
 import dash_ag_grid as dag
 import pandas as pd
 from dash.dependencies import Input, Output, State
-from MIRstatus import getBattery, timeRemaining, mapData, isAvailable,getNet
+from MIRstatus import getBattery, timeRemaining, isAvailable, getNet, misText, modekeystate
 import CallTo
 import base64
+import dash_bootstrap_components as dbc
 
 
 #from layout import layout
@@ -14,19 +15,20 @@ import base64
 #LAYOUT-----------------------------------
 #------------------------------------------
 #logic--------------------------------------
-COLOURS = {
-    'navy':'#1f2442',
-    'blue': '#a9afd4',
-    'backgnd': '#dadded',
+COLOURS = { #CHANGE TO VODAFONE THEME + ADD LOGOS
+    'red':"#AF1D18",
+    'white': "#FFFFFF",
+    'backgnd': "#EBEBEB",
+    'black': "#1A1A1A",
     'green': '#8FC78F',
-    'orange': "#C7B38F",
-    'red': "#AF6A6A"
+    'orange': "#E2870F",
+    #'red': "#C52620"
 }
 COLOURS3 ={'colour'}
 if isAvailable() == True:
     COLOURS2 = {'colour': '#8FC78F'}
 else:
-    COLOURS2 = {'colour': '#C78F8F' }
+    COLOURS2 = {'colour': '#AF6A6A' }
 
 if getNet() == 1:
     netStat = 'Connected'
@@ -38,145 +40,170 @@ if getNet() == 3:
     netStat = 'Offline'
     COLOURS3 = {'colour': '#AF6A6A'}
 #-----------------------------------------
-app = Dash()
-
+app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
+#################################################################    
+#Title bar         
+#################################################################    
 app.layout = html.Div(
-    style = {'backgroundColor': COLOURS['backgnd']
-
-        }, children=[ 
-   #title bar
-    html.H1('MiR Stats',
-        style={
-            'color': COLOURS['blue'],
-            'width':'100%',
-            'padding':'5px',
-            'backgroundColor': COLOURS['navy'],
-            'borderRadius':'0px',
-            'margin':'0px',
-            'flex':'1',
-            'verticalAlign':'top',
-            
-         }),
-#------------------------status section---------------------------------
-    dcc.Interval(id='interval',interval=1000,n_intervals=0),
+    style = {'backgroundColor': COLOURS['backgnd'],'font-family':'Monospace'}, children= [ 
     
-    html.Div([    
-        html.H2('Status',
-            style = {'color': COLOURS['navy'],
-                'backgroundColor': COLOURS['blue'],
-                'padding':'10px',
-                'borderRadius':'10px',
-                'margin':'10px',
-                'verticalAlign':'top'}
-        ),
-        html.P(id= 'battery'),
-        html.P(id='time')], 
-        #other data in this block enter here
-            style={
-                'color': COLOURS['blue'],
-                'width':'20%',
-                'padding':'10px',
-                'backgroundColor': COLOURS['navy'],
-                'borderRadius':'10px',
-                'margin':'10px',
-                'verticalAlign':'top',
-                'display': 'inline-block'
-                } 
-    ),
- #----------------mission queue-----------------------------
-        html.Div([ 
-            html.H2('Mission Queue', 
-                style = {'color': COLOURS['navy'],
-                    'backgroundColor': COLOURS['blue'],
-                    'padding':'10px',
-                    'borderRadius':'10px',
-                    'margin':'10px',
-                    'verticalAlign':'top'},
-            ),
-            html.P('**add data of mission queue**')], #id = 'mis names
-                style={
-                    'color': COLOURS['blue'],
-                    'width':'20%',
-                    'padding':'10px',
-                    'backgroundColor': COLOURS['navy'],
-                    'borderRadius':'10px',
-                    'margin':'10px',
-                    'verticalAlign':'top',
-                    'display': 'inline-block'}
-        ), 
-#------------TASKS LIST-------------------------------------------
-        html.Div([
-            html.H1('Available?', 
-                style={
-                    'color': COLOURS['navy'],
-                    'padding':'10px',
-                    'backgroundColor': COLOURS2['colour'],
-                    'borderRadius':'10px',
-                    'margin':'10px',
-                    'verticalAlign':'top'}
-            ),
-            html.H2('Call to:',
-                style = {'color': COLOURS['navy'],
-                    'backgroundColor': COLOURS['blue'],
-                    'padding':'10px',
-                    'borderRadius':'10px',
-                    'margin':'10px',
-                    'verticalAlign':'top'},
+    
+    dbc.Container([  
+        dbc.Row([#title bar - row 1
+            dbc.Col(html.Div([ #r1c1
+                html.H1('MiR Stats',
+                    style={
+                        'color': COLOURS['black'],
+                        'width':'100%',
+                        'padding':'5px',
+                        #'backgroundColor': COLOURS['red'],
+                        'borderRadius':'10px',
+                        'margin':'0px',
+                        'verticalAlign':'top'})
+            ]), width = 8),
+
+            dbc.Col(html.Div([ # r1c2
+                html.Img(src='assets/IMR-Primary Logo_RGB.png',
+                    style ={'width': '100%',
+                        'verticalAlign':'top', 
+                        'float':'right',
+                        'margin':'0px'})
+            ]), width = 2),               
+            dbc.Col(html.Div([ #r1c3
+                html.Img(src='assets/vodafone.png',
+                    style ={'width': '60%',
+                        'verticalAlign':'top', 
+                        'float':'right',
+                        'margin':'0px'})
+            ]), width = 2)
+        ]), #row2
+  #fine^
+#################################################################    
+#LEFT COL         
+#################################################################      
+# #1st column------------------------------------
+                
+        dbc.Row([ #row 4                  
+            dbc.Col(html.Div([     #left left            
+                html.H2('Status',
+                    style = {'color': COLOURS['white'],
+                        'backgroundColor': COLOURS['red'],
+                        'padding':'10px',
+                        'borderRadius':'10px',
+                        'margin':'0px',
+                        'verticalAlign':'top'}),
+                html.P(id= 'battery'),
+                html.P(id='time'),
+                dcc.Interval(id='interval',interval=1*1000,n_intervals=0)], 
+                #other data in this block enter here
+                    style={
+                        'color': COLOURS['black'],
+                        'width':'100%',
+                        'padding':'10px',
+                        'backgroundColor': COLOURS['white'],
+                        'borderRadius':'10px',
+                        'margin':'0px',
+                        'verticalAlign':'top',
+                        'display': 'inline-block'})),
+#fine^
+#----------------mission queue-----------------------------(middle column)
+            dbc.Col(html.Div([ #right left
+                html.H2('Mission Queue', 
+                    style = {'color': COLOURS['white'],
+                        'backgroundColor': COLOURS['red'],
+                        'padding':'10px',
+                        'borderRadius':'10px',
+                        'margin':'0px',
+                        'verticalAlign':'top'}),
+                #html.P('Executing: '),
+                html.P(id = 'text'),
+                html.P(id = 'pending')], 
+                    style={
+                        'color': COLOURS['black'],
+                        'width':'100%',
+                        'padding':'10px',
+                        'backgroundColor': COLOURS['white'],
+                        'borderRadius':'10px',
+                        'margin':'0px',
+                        'verticalAlign':'top',
+                        'display': 'inline-block'}
+                )),
+
+        ]), #row 4
+#fine^
+            dbc.Row([ #row 5
+                dbc.Col(html.Div([ #col 3
+                    html.H1(id = 'state', 
+                        style={
+                            'color': COLOURS2['colour'],
+                            'padding':'10px',
+                            'backgroundColor': COLOURS['red'],
+                            'borderRadius':'10px',
+                            'margin':'10px',
+                            'verticalAlign':'top'}
                     ),
-            dcc.Button('Leahs Desk', id = 'mydesk', n_clicks = 0),
-            dcc.Button('Dock', id = 'dock', n_clicks = 0),
+                    html.H3('Call to:',
+                        style = {'color': COLOURS['red'],
+                            'backgroundColor': COLOURS['white'],
+                            'padding':'10px',
+                            'borderRadius':'10px',
+                            'margin':'10px',
+                            'verticalAlign':'top'},
+                            ),
+                    dcc.Button('Leahs Desk', id = 'mydesk', n_clicks = 0),
+                    dcc.Button('Dock', id = 'dock', n_clicks = 0),
+                    dcc.Button('Pick up',id = 'pick', n_clicks = 0 ),
+                    dcc.Button('Place down', id='place', n_clicks = 0),
+                    html.Div(id ='container', children = '')
+                ], #col 3
 
-            html.P('test'),
-            html.P('test'),
-            html.P('test')],
-                style={
-                    'color': COLOURS['blue'],
-                    'width':'20%',
-                    'padding':'10px',
-                    'backgroundColor': COLOURS['navy'],
-                    'borderRadius':'10px',
-                    'margin':'10px',
-                    'verticalAlign':'top',
-                    'display': 'inline-block'}
-        ),    
-    html.Div([
-        html.H2('Network', 
-            style = {'color': COLOURS['navy'],
-                    'backgroundColor': COLOURS['blue'],
-                    'padding':'10px',
-                    'borderRadius':'10px',
-                    'margin':'10px',
-                    'verticalAlign':'top'},
-        ),
-        html.P('')],
-            style={
-                    'color': COLOURS['blue'],
-                    'width':'20%',
-                    'padding':'10px',
-                    'backgroundColor': COLOURS['navy'],
-                    'borderRadius':'10px',
-                    'margin':'10px',
-                    'verticalAlign':'top',
-                    'display': 'inline-block'}
-        ), 
-    
-#---------------map------------------------------------------------
-        html.Div([ 
-            html.Img(src='assets/AllBays.png', 
-                style={'width': '100%',
-                    'width':'43%',
-                    'padding':'10px',
-                    'backgroundColor': COLOURS['navy'],
-                    'borderRadius':'10px',
-                    'margin':'10px',
-                    'verticalAlign':'top',
-                    'display': 'inline-block'}
-            ),
-        #html.Img(src=f"data:image/png;base64,{mapData()}")
-        ]),
-        
-    
+                        style={
+                            'color': COLOURS['black'],
+                            'width':'100%',
+                            'padding':'10px',
+                            'backgroundColor': COLOURS['white'],
+                            'borderRadius':'10px',
+                            'margin':'10px',
+                            'verticalAlign':'top',
+                            'display': 'inline-block'}
+                )), #col 3
+
+            dbc.Col( #right half col
+                html.Div([ 
+                    html.Img(src='assets/AllBays.png', 
+                        style={'width': '100%',
+                            'width': '100%',
+                            'padding':'10px',
+                            'backgroundColor': COLOURS['red'],
+                            'borderRadius':'10px',
+                            'margin':'10px',
+                            'verticalAlign':'top',
+                            'display': 'inline-block'})])
+            )
+
+            ])#row 5
+    ])
 ])
+
+#################################################################    
+#RIGHT COL         
+#################################################################            
+            
+
+
+
+
+
+
+ 
+
+#------------------------status section---------------------------------
+
+#----------------mission queue-----------------------------
+#------------TASKS LIST-------------------------------------------
+#---------------map------------------------------------------------  
+    
+
 
 
     #other blocks here
@@ -184,36 +211,31 @@ app.layout = html.Div(
 #callbacks-----------------------------------
 #------------------------------------------
 #import callbacks
-
 @app.callback(
     Output('battery', 'children'),
     Output('time', 'children'),
-    #Output('map','children'),
     Input('interval','n_intervals')
 )
 def updateBattery(n):
     battery = getBattery()
-    hrs, min, sec = timeRemaining()
-    #map = mapData()
+    hrs, min, sec = timeRemaining()    
+
     return(
         f"Battery: {battery}%",
-        f"Time remaining: {hrs}hrs, {min}mins, {sec}secs"
+        f"Time remaining: {hrs}hrs, {min}mins, {sec}secs",
        )
-
 @app.callback(
-    #Output('Moving', 'children'),
-    Input('mydesk', 'n_clicks'),
-    #Input('dock', 'n_clicks'),
-    #State('inputOnClick', 'id')
+        Output('text','children'),
+        #Output('state', 'children'),
+        #Output('pending','children'),
+        Input('interval','n_intervals')
 )
-def buttonClicked(n_clicks):
-    if 'mydesk' == ctx.triggered_id:
-        id = misID.LeahsDesk
-    return CallTo.doMission(id)
 
-#def updateQ(n)
-    #queue = 
-    #return 
+def updatemisQue(n):
+    text = misText()
+    state = modekeystate()
+    return text, state
+
 
 if __name__ == '__main__':
     app.run(debug=True)
