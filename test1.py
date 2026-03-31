@@ -1,19 +1,19 @@
-import functions, defs
+import basicFunctions, defs
 
 def collectShelf():
-    functions.doMission(defs.dockToShelf)
-    functions.doMission(defs.footprintWithShelf)
+    basicFunctions.doMission(defs.dockToShelf)
+    basicFunctions.doMission(defs.footprintWithShelf)
     
-    functions.pickUp()
+    basicFunctions.pickUp()
     return
 
 def replaceShelf():
-    functions.doMission(defs.dockToShelf)
-    functions.doMission(defs.defaultFootprint)
-    functions.placeDown()
+    basicFunctions.doMission(defs.dockToShelf)
+    basicFunctions.doMission(defs.defaultFootprint)
+    basicFunctions.placeDown()
     return
 
 
 collectShelf()
-functions.doMission(defs.ExcusemeTest)
+basicFunctions.doMission(defs.ExcusemeTest)
 replaceShelf()
