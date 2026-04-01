@@ -2,7 +2,7 @@ from dash import Dash, html, dcc
 from dash.dependencies import Input, Output
 
 import dash_bootstrap_components as dbc
-import dash_player as dp
+import dash_player
 
 COLOURS = { #CHANGE TO VODAFONE THEME + ADD LOGOS
     'red':"#AF1D18",
@@ -53,7 +53,13 @@ layout = html.Div(
                         'float':'right',
                         'margin':'0px'})
             ]), width = 2)
-        ]), #row1 close
+
+        ],   
+        style = {
+            'backgroundColor': COLOURS['white'],
+            'width':'100%'
+            }
+        ), #row1 close
   #fine^
 #################################################################    
 #LEFT COL         
@@ -64,13 +70,14 @@ layout = html.Div(
             dbc.Col( #r2c1
                 dbc.Row([ #inside r2c1
                     dbc.Col(html.Div([  #LEFT r2c1          
-                        html.H3('Status',
-                            style = {'color': COLOURS['white'],
-                                'backgroundColor': COLOURS['red'],
+                        html.H3('Status:',
+                            style = {
+                                'color': COLOURS['white'],
                                 'padding':'8px',
-                                'borderRadius':'8px',
-                                'margin':'0px',
-                                'verticalAlign':'middle',
+                                'backgroundColor': COLOURS['red'],
+                                'borderRadius':'10px',
+                                'margin':'5px',
+                                'verticalAlign':'top',
                                 'height':'40px'}),
 
                             html.Div(id= 'battery'),
@@ -82,10 +89,11 @@ layout = html.Div(
                                 'padding':'8px',
                                 'backgroundColor': COLOURS['white'],
                                 'borderRadius':'10px',
-                                'margin':'0px',
+                                'margin':'5px',
                                 'verticalAlign':'top',
                                 'display': 'inline-block',
-                                'height': '120px'}
+                                'height': '120px'
+                                }
                     )),
 
                     dbc.Col(html.Div([ #r2c1c2 
@@ -95,8 +103,8 @@ layout = html.Div(
                                 'padding':'8px',
                                 'backgroundColor': COLOURS['red'],
                                 'borderRadius':'10px',
-                                'margin':'0px',
-                                'verticalAlign':'middle',
+                                'margin':'5px',
+                                'verticalAlign':'top',
                                 'height':'40px'}),
                         #html.P('Executing: '),
                         html.P(id = 'text'),
@@ -107,7 +115,7 @@ layout = html.Div(
                                 'padding':'8px',
                                 'backgroundColor': COLOURS['white'],
                                 'borderRadius':'10px',
-                                'margin':'0px',
+                                'margin':'5px',
                                 'verticalAlign':'top',
                                 'display': 'inline-block',
                                 'height': '120px'
@@ -116,23 +124,18 @@ layout = html.Div(
                 
                 dbc.Row([ #R2c1r2 {middle}
                     dbc.Col(html.Div([ #col 3
-                        html.H1('Tasks:', 
+                        html.H3('Tasks:', 
                             style={
                                 'color': COLOURS['white'],
-                                'padding':'10px',
+                                'padding':'8px',
                                 'backgroundColor': COLOURS['red'],
                                 'borderRadius':'10px',
-                                'margin':'10px',
-                                'verticalAlign':'top'}
+                                'margin':'5px',
+                                'verticalAlign':'top'
+                                }
                         ),
-                        html.H3('Temporary buttons:', #Call to:
-                            style = {'color': COLOURS['red'],
-                                'backgroundColor': COLOURS['white'],
-                                'padding':'10px',
-                                'borderRadius':'10px',
-                                'margin':'10px',
-                                'verticalAlign':'top'},
-                                ),
+                        
+                                
                         dcc.Button('Leahs Desk', id = 'mydesk', n_clicks = 0),
                         dcc.Button('Dock', id = 'dock', n_clicks = 0),
                         dcc.Button('Pick up',id = 'pick', n_clicks = 0 ),
@@ -150,9 +153,30 @@ layout = html.Div(
                                 'borderRadius':'10px',
                                 'margin':'10px',
                                 'verticalAlign':'top',
-                                'display': 'inline-block'}
+                                'display': 'inline-block',
+                                'height': '150px'
+                                }
                     )) #r2c1r2 close                
-                ])])
+                ]),
+                dbc.Row([
+                    dbc.Col(html.Div([ #col 3
+                        html.H3('Data:', 
+                            style={
+                                'color': COLOURS['white'],
+                                'padding':'8px',
+                                'backgroundColor': COLOURS['red'],
+                                'borderRadius':'10px',
+                                'margin':'5px',
+                                'verticalAlign':'top'
+                                }
+                        ),
+
+
+                    ]))
+
+
+                ])
+                ])
             ),
 #################################################################    
 #RIGHT COL         
