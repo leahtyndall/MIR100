@@ -61,7 +61,7 @@ def disToTarget():
 def misText():
     statusData = APImir.mirRequest("GET", "/status")
     text = statusData.get('mission_text')
-    return  text
+    return text
 
 def modekeystate():
     statusData = APImir.mirRequest("GET", "/status")
