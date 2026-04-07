@@ -1,4 +1,4 @@
-from tuya_relay_python import shelfPistons 
+from layout.Funcs import shelfPistons 
 import time
 #######################################################################
 #missions

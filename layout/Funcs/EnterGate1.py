@@ -1,7 +1,7 @@
-import APImir
-import MIRstatus
-import defs
-import shellyGateControl
+import layout.Funcs.API.APImir as APImir
+import layout.Funcs.MIRstatus as MIRstatus
+import layout.Funcs.defs as defs
+import layout.Funcs.shellyGateControl as shellyGateControl
 import time
 #
 statusData = APImir.mirRequest("GET", "/status") 

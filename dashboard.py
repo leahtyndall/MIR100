@@ -1,8 +1,9 @@
 from dash import Dash, html, dcc, ctx, callback
-import defs
+from layout.Funcs import defs
 from dash.dependencies import Input, Output
-from MIRstatus import getBattery, timeRemaining, getNet, misText, stateID, isAvailable
-import CallTo, basicFunctions
+from layout.Funcs.MIRstatus import getBattery, timeRemaining, getNet, misText, stateID, isAvailable
+import layout.Funcs.CallTo as CallTo
+import layout.Funcs.basicFunctions as basicFunctions
 import datetime
 import dash_bootstrap_components as dbc
 import dash_player as dp
@@ -10,7 +11,7 @@ from layout import layout
 
 app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
  
-app.layout = layout
+app.layout = layout.layout
 
 #callbacks-----------------------------------
 

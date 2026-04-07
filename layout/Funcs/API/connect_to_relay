@@ -1,0 +1,5 @@
+import tinytuya
+d = tinytuya.OutletDevice('DEVICE_ID', "IP_ADDR", "LOCAL_KEY", version=3.4)
+print(d.status())
+d.set_status(True, 1)   # ON
+d.set_status(False, 1)  # OFF

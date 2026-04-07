@@ -1,4 +1,4 @@
-import APIshelly
+import layout.Funcs.API.APIshelly as APIshelly
 import time
 
 get = APIshelly.get

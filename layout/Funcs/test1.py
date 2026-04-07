@@ -1,4 +1,4 @@
-import basicFunctions, defs
+import basicFunctions, layout.Funcs.defs as defs
 
 def collectShelf():
     basicFunctions.doMission(defs.dockToShelf)

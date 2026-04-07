@@ -1,4 +1,4 @@
-import APImir, shellyGateControl, defs, MIRstatus
+import layout.Funcs.API.APImir as APImir, layout.Funcs.shellyGateControl as shellyGateControl, layout.Funcs.defs as defs, layout.Funcs.MIRstatus as MIRstatus
 import time
 
 

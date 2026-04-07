@@ -1,4 +1,4 @@
-import APIshelly
+import layout.Funcs.API.APIshelly as APIshelly
 
 get = APIshelly.get
 request = APIshelly.Request
