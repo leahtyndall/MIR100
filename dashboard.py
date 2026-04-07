@@ -9,6 +9,7 @@ import dash_bootstrap_components as dbc
 import dash_player as dp
 from layout import layout
 
+
 app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
  
 app.layout = layout.layout
@@ -62,6 +63,14 @@ def buttonClicked(b1,b2,b3,b4,b5):
         return basicFunctions.pickUpSequenceB1()
     elif 'depositSequenceB1' == ctx.triggered_id:
         return basicFunctions.depositSequenceB1()
+'''
+@app.callback( #stream
+    
+    Output('stream', 'children'),
+    Input('feed', 'value'),
+)
+def liveStream(value):
+    return value'''
 
 if __name__ == '__main__':
     app.run(debug=True)

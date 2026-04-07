@@ -183,7 +183,7 @@ layout = html.Div(
 #################################################################            
             dbc.Col( #r2c2 MAP
                 html.Div([ 
-                    html.Img(src='assets/AllBays.png', 
+                    html.Img(src='http://192.168.30.100:8081/', 
                         style={'width': '100%',
                             'width': '100%',
                             'padding':'10px',
