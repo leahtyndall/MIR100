@@ -1,5 +1,6 @@
 import APImir, shellyGateControl, defs, MIRstatus
 import time
+from tuya_relay_python import connect_to_relay
 
 
 def clearqueue():
@@ -9,16 +10,17 @@ def doMission(mission_id):
     data = {"mission_id": mission_id}
     return APImir.mirRequest("POST","/mission_queue", data)
 
+
 def disToTarget():
     statusData = APImir.mirRequest("GET", "/status") 
     return round(statusData.get("distance_to_next_target"))
 
 def openGate():
-    while disToTarget() > 5 or disToTarget() == 0:
+    while disToTarget() > 4 or disToTarget() == 0:
         time.sleep(1)
         #print(disToTarget())     
 
-        if disToTarget() < 5:
+        if disToTarget() < 4:
             break
     print(f"{disToTarget()}m away, Opening gates")
     return shellyGateControl.open()
@@ -27,8 +29,10 @@ def checkPLC1():
     plc1 = APImir.mirRequest('GET','/registers/1')
     value = plc1.get('value')
     return value
+
 def setPLC1():
-    APImir.mirRequest('PUT','/registers/1', {'value':'2'})
+    doMission(defs.plc12)
+    return
 
 def pickUp():
     while checkPLC1() == 0  :
@@ -36,21 +40,23 @@ def pickUp():
 
         if checkPLC1() == 1:
             print("Preparing pistons")
-            defs.pick()
+            connect_to_relay.pick()
+            time.sleep(5)   
             setPLC1()
-            time.sleep(10)    
-    return 
+            time.sleep(2)
+            return 
 
 def placeDown():
-    while checkPLC1() == 0  :
+    while checkPLC1() == 0:
         time.sleep(1)  
 
         if checkPLC1() == 1:
             print("Preparing pistons")
-            defs.place()
-            setPLC1()
-            time.sleep(10)    
-    return
+            connect_to_relay.place()
+            time.sleep(5) 
+            setPLC1() 
+            time.sleep(2)  
+            return
 #################################################################    
 #BAY 1        
 #################################################################  
@@ -61,9 +67,10 @@ def pickUpSequenceB1():
     while checkPLC1() == 1:
         time.sleep(1)
         if checkPLC1() == 2:
-            time.sleep(5)
+            #time.sleep(5)
             doMission(defs.leaveDock)
-    return
+            return
+        
 def depositSequenceB1():
     doMission(defs.dockToShelfB1)
     doMission(defs.defaultFootprint)
@@ -71,9 +78,9 @@ def depositSequenceB1():
     while checkPLC1() == 1:
         time.sleep(1)
         if checkPLC1() == 2:
-            time.sleep(5)
+            #time.sleep(5)
             doMission(defs.leaveDock)
-    return
+            return
 #################################################################    
 #BAY 2         
 #################################################################  
@@ -84,9 +91,9 @@ def pickUpSequenceB2():
     while checkPLC1() == 1:
         time.sleep(1)
         if checkPLC1() == 2:
-            time.sleep(5)
+            #time.sleep(2)
             doMission(defs.leaveDock)
-    return
+            return
 
 def depositSequenceB2():
     doMission(defs.dockToShelfB2)
@@ -95,7 +102,22 @@ def depositSequenceB2():
     while checkPLC1() == 1:
         time.sleep(1)
         if checkPLC1() == 2:
-            time.sleep(5)
+            time.sleep(2)
             doMission(defs.leaveDock)
+            return
+
+def marathon():
+    doMission(depositSequenceB2())
+    
+    return
+
+def enterGate1():
+    doMission(defs.ApproachGate1)
+    shellyGateControl.openGate()
+    return
+
+def exitGate1():
+    doMission(defs.ExitGate1)
+    shellyGateControl.openGate()
     return
 

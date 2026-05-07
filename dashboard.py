@@ -1,17 +1,27 @@
-from dash import Dash, html, dcc, ctx, callback
-import defs
+from dash import Dash, html, ctx
+import network, subscriber
 from dash.dependencies import Input, Output
-from MIRstatus import getBattery, timeRemaining, getNet, misText, stateID, isAvailable
-import CallTo, basicFunctions
-import datetime
+from MIRstatus import getBattery, timeRemaining, stateID, getError
+import missions
+import networkMap
+import pandas as pd
+import plotly.express as px
+import csv
+import plotly.graph_objects as go
+import tuya_relay_python.connect_to_relay as relay
+import basicFunctions as bf
 import dash_bootstrap_components as dbc
-import dash_player as dp
-from layout import layout
+
+from layout2 import layout2
+
+
+
 
 app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
  
-app.layout = layout
-
+app.layout = layout2
+df = pd.read_csv('networkData.csv')
+colourscale = px.colors.named_colorscales()
 #callbacks-----------------------------------
 
 @app.callback(
@@ -28,39 +38,190 @@ def updateBattery(n):
        )
 
 @app.callback(
-    Output('text','children'),
-    Output('state', 'children'),
+    Output('state','children'),
+    #Output('text', 'children'),
     #Output('pending','children'),
     Input('interval-component','n_intervals')
 )
 def updatemisQue(n):
-    text = misText()
     state = stateID()
-    return text, state
+    #text = misText
+    return state#, text
 
 @app.callback( #buttons
     Output('container', 'children'),
+    #Output('text','children'),
     
-    Input('mydesk', 'n_clicks'),
-    Input('pick', 'n_clicks'),
-    Input('place', 'n_clicks'),
-    Input('pickUpSequenceB1', 'n_clicks'),
-    Input('depositSequenceB1', 'n_clicks')
+    Input('charge', 'n_clicks'),
+    Input('cfb1', 'n_clicks'),
+    Input('dab1', 'n_clicks'),
+    Input('cfb2', 'n_clicks'),
+    Input('b2LEFT', 'n_clicks'),
+    Input('dab2', 'n_clicks'),
+    Input('da', 'n_clicks'),
+    Input('marathon', 'n_clicks'),
+    Input('clear', 'n_clicks')
+    )
 
-    #Input('dock', 'n_clicks'),
-    #State('inputOnClick', 'id')
+def buttonClicked(b1,b2,b3,b4,b5,b6,b7, b8,b9):
+    if 'charge' == ctx.triggered_id:
+        missions.charge()
+        network.taskResponse()
+        return 
+    elif 'cfb1' == ctx.triggered_id:
+        missions.cfb1()
+        network.taskResponse()
+        return
+    elif 'dab1' == ctx.triggered_id:
+        missions.dab1()
+        network.taskResponse()
+        return
+    elif 'cfb2' == ctx.triggered_id:
+        missions.cfb2()
+        network.taskResponse()
+        return 
+    elif 'b2LEFT' == ctx.triggered_id:
+        missions.b2LEFT()
+        network.taskResponse()
+        return
+    elif 'dab2' == ctx.triggered_id:
+        missions.dab2()
+        network.taskResponse()
+        return 
+    elif 'da' == ctx.triggered_id:  
+        missions.da()
+        network.taskResponse()
+        return 
+    elif 'marathon' == ctx.triggered_id:
+        missions.marathon()
+        network.taskResponse()
+        return
+    elif 'clear' == ctx.triggered_id:
+        return bf.clearqueue()
+
+@app.callback(
+    Output('netstrength', 'children'),
+    Input('interval-component','n_intervals')
 )
-def buttonClicked(b1,b2,b3,b4,b5):
-    if 'mydesk' == ctx.triggered_id:
-        return CallTo.doMission(defs.LeahsDesk)
-    elif 'pick' == ctx.triggered_id:
-        return defs.pick()
-    elif 'place' == ctx.triggered_id:
-        return defs.place()
-    elif 'pickUpSequenceB1' == ctx.triggered_id:
-        return basicFunctions.pickUpSequenceB1()
-    elif 'depositSequenceB1' == ctx.triggered_id:
-        return basicFunctions.depositSequenceB1()
+def networkinfo(n):
+    strength = network.mullab()
+    freq = network.freq()
+    return(
+        html.P(f'Strength: -{strength} dBm'),
+        html.P(f'Frequency: {freq}') 
+    )
+@app.callback(
+    Output('latency', 'children'),
+    Input('interval-component','n_intervals')
+)
+def latencyinfo(n):
+    latency, status_code = network.ping()
+    return(
+        html.P(f'Latency: {latency}ms'),
+        html.P(f'Status code: {status_code}')
+    )   
+
+@app.callback(
+    Output('fps', 'children'),
+    Input('interval-component','n_intervals')
+)
+def stream(n):
+    fps = subscriber.getfps()
+    return(
+        html.P(f'FPS: {fps}')
+    )
+@app.callback(
+    Output('taskLatency', 'children'),
+    Input('container', 'children')
+)
+def taskResponseTime(n):
+    time = network.taskResponse()
+    return( 
+        html.P(f'Time taken = {time}ms')
+    )
+
+@app.callback(
+    Output('errors', 'children'),
+    Input('interval-component', 'n_intervals')
+)
+def errors(n):
+    errors = getError()
+    if errors == 67:
+        return html.P('No errors!')
+    else:
+        return html.P(errors)
+#'''
+@app.callback(
+    Output('plot', 'figure'),
+    Input('interval-comp2', 'n_intervals')
+)
+
+def graph(n):
+    networkMap.getData() #uncomment to build network map
+    df = pd.read_csv('networkData.csv')
+    fig = go.Figure()
+    
+    #drawing site perimeter
+    fig.add_trace(go.Scatter(
+        x = [39.850, 41.35, 52.8, 52, 60.85,61.4,58.8,44.35,44.1,52.15,52.8, 70.9, 70.75,70.75, 64.35, 64.95,71.2,70.75, 81.85, 81.3, 77.25, 77.8,70.05,69.65, 39.85],
+        y = [52.6, 19.85, 20.2, 40.5,40.75,27.8,22.7,22.05,31.35,31.5, 20.2, 21.3, 40.1,41.15,40.75,24.6,24.6,40.1, 40.35, 56.15, 55.9, 43.85, 43.6, 53.4, 52.6],
+
+        mode='lines',
+        #name='Perimeter',
+        line=dict(color='red', width = 1),
+        line_shape='linear',
+        showlegend=False
+    ))
+    custom_colors = [
+        [0, 'rgba(255, 255, 255, 0)'], 
+        
+        #[0.1, 'rgba(255, 255, 255, 0)'], 
+        [0.1, "#ec2626"],              
+        [0.5, "#d8c731"],              
+        [1.0, "#2A71DD"]            
+    ]
+    #z = df['strength']
+    #plotting coords
+    fig.add_trace(
+        go.Histogram2dContour(
+            x=df['x'],
+            y=df['y'],
+            z = df['strength'],
+            histfunc = 'avg',
+            colorscale=custom_colors, #[[0, '#fffff]]
+            showscale=True,
+            nbinsx =7, # dict(start=35, end=85, size=1),
+            nbinsy=7, #dict(start=17, end=56, size=1),
+            zmin = 25,
+            zmax = 75,
+            #reversescale = True,
+            #showlegend=False
+            line=dict(width=0),
+            contours_coloring = 'heatmap',
+            ncontours = 30,
+            text_auto = True
+        ), 
+    )
+
+    fig.update_layout(
+        #plot_bgcolor='white',
+        xaxis_title='X coordinate',
+        yaxis_title='Y coordinate',
+        uirevision='constant',
+        yaxis_scaleanchor='x',
+        xaxis = dict(
+        tickmode = 'linear',  
+        dtick = 10,
+    ),
+        yaxis=dict(
+        tickmode= 'linear',
+        dtick=10,
+        )
+        
+    )
+    
+    return fig
 
 if __name__ == '__main__':
     app.run(debug=True)
+    #app.run(host='0.0.0.0', port=8055, debug=False)
