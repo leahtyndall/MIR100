@@ -1,4 +1,4 @@
-import APIshelly
+import APIshelly, APImir
 import time
 
 get = APIshelly.get
@@ -31,15 +31,21 @@ def shellyStatus():
     return status
 
 
-'''def isOpen():
-    get("Switch.GetStatus"+id)
-    out = {"output":  }
-    response = out
-    return print(response)'''
+def disToTarget():
+    statusData = APImir.mirRequest("GET", "/status") 
+    return round(statusData.get("distance_to_next_target"))
+
+def openGate():
+    while disToTarget() > 4 or disToTarget() == 0:
+        time.sleep(1)
+        #print(disToTarget())     
+        if disToTarget() < 4:
+            break
+    print(f"{disToTarget()}m away, Opening gates")
+    return open()
 
 
 
-    
 
 
 

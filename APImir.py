@@ -27,3 +27,24 @@ def mirRequest(method, endpoint, data = None):   #method=get/post/delete
         return response.json()   #translates & returns response from robot to us
     except ValueError:
         return response.text
+def mirRequestNOJSON(method, endpoint, data = None):   #method=get/post/delete
+    url = baseURL + endpoint
+
+    headers  = {
+        "Authorization": "Basic ZGlzdHJpYnV0b3I6NjJmMmYwZjFlZmYxMGQzMTUyYzk1ZjZmMDU5NjU3NmU0ODJiYjhlNDQ4MDY0MzNmNGNmOTI5NzkyODM0YjAxNA==",
+        "Accept-Language" : "en_US",
+        "Content-Type": "application/json"
+    }
+
+
+    response = requests.request(
+        method, 
+        url,
+        headers = headers,
+        json=data,
+        #auth=(username, password)
+    )
+
+    #print(response.text)
+
+    return response

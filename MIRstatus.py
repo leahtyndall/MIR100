@@ -6,7 +6,7 @@ import pandas as pd
 import base64
 
 
-statusData = APImir.mirRequest("GET", "/status") 
+#statusData = APImir.mirRequest("GET", "/status") 
 
 def status():
     
@@ -15,13 +15,23 @@ def status():
 def getBattery():
     statusData = APImir.mirRequest("GET", "/status")
     battery = round(statusData.get("battery_percentage"))
-    if battery < 20:
-        basicFunctions.doMission(defs.chargingStation)
+    charging = False
+    if battery < 30 & charging == False:
+        charging = True
+        autoCharge()
     return battery
    # elif battery <= 53:
     #    
     #return battery
-    
+def autoCharge():
+    charging = True
+    basicFunctions.doMission(defs.chargingStation)
+    stat = APImir.mirRequest("GET", "/status").get('mission_text')
+    bat = APImir.mirRequest("GET", "/status").get('battery_percentage')
+    if bat == '100.0':
+        charging = False
+
+    return
            
 def isAvailable():
     statusData = APImir.mirRequest("GET", "/status")
@@ -61,6 +71,7 @@ def disToTarget():
 def misText():
     statusData = APImir.mirRequest("GET", "/status")
     text = statusData.get('mission_text')
+    
     return text
 
 def modekeystate():
@@ -81,13 +92,6 @@ def getNet():
     except:
         return 3 #emergency stop/ offline
     
-    print(all)
-    #return connected
-
-def getHookStat():
-
-    return 
-
 #################################################################    
 #State IDs       
 ################################################################# 
@@ -99,17 +103,19 @@ def stateID():
     elif stateid == 3:
         return 'Ready for mission'
     elif stateid == 4:
-        return 'Executing mission'
-    elif stateid == 11:
-        return 'Emergency stop'
-    elif stateid ==12:
         return 'Paused'
+    elif stateid == 10:
+        return 'Emergency stop'
+    elif stateid ==5:
+        return 'Executing Mission'
 
-def error():
+def getError():
     statusData = APImir.mirRequest("GET", "/status")
     error = statusData.get('errors')
-
-    return error
+    if error == []:
+        return 67
+    else:
+        return error
 
 
 
