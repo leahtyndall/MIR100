@@ -1,7 +1,7 @@
 from dash import dcc
 import pandas as pd
 import plotly.express as px
-import APImir
+from API import APImir
 import csv
 import time
 import network

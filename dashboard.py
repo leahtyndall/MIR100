@@ -8,7 +8,7 @@ import pandas as pd
 import plotly.express as px
 import csv
 import plotly.graph_objects as go
-import tuya_relay_python.connect_to_relay as relay
+#import tuya_relay_python.connect_to_relay as relay
 import basicFunctions as bf
 import dash_bootstrap_components as dbc
 
@@ -173,12 +173,13 @@ def graph(n):
         showlegend=False
     ))
     custom_colors = [
-        [0, 'rgba(255, 255, 255, 0)'], 
+        #[0, 'rgba(255, 255, 255, 0)'], 
         
         #[0.1, 'rgba(255, 255, 255, 0)'], 
-        [0.1, "#ec2626"],              
+        [0, "#ec2626"],              
         [0.5, "#d8c731"],              
-        [1.0, "#2A71DD"]            
+        [0.9, "#2A71DD"],
+        [1.0, 'rgba(255, 255, 255, 0)' ]            
     ]
     #z = df['strength']
     #plotting coords
@@ -190,16 +191,18 @@ def graph(n):
             histfunc = 'avg',
             colorscale=custom_colors, #[[0, '#fffff]]
             showscale=True,
-            nbinsx =7, # dict(start=35, end=85, size=1),
-            nbinsy=7, #dict(start=17, end=56, size=1),
+            #xbins = dict(start=35, end=85, size=3),
+            #ybins= dict(start=17, end=56, size=3),
+            nbinsx=25,
+            nbinsy=20,
             zmin = 25,
             zmax = 75,
-            #reversescale = True,
+            reversescale = True,
             #showlegend=False
-            line=dict(width=0),
+            #line=dict(width=0),
             contours_coloring = 'heatmap',
-            ncontours = 30,
-            text_auto = True
+            ncontours =10,
+            #text_auto = True
         ), 
     )
 
@@ -208,14 +211,14 @@ def graph(n):
         xaxis_title='X coordinate',
         yaxis_title='Y coordinate',
         uirevision='constant',
-        yaxis_scaleanchor='x',
+        #yaxis_scaleanchor='x',
         xaxis = dict(
         tickmode = 'linear',  
-        dtick = 10,
+        dtick = 5,
     ),
         yaxis=dict(
         tickmode= 'linear',
-        dtick=10,
+        dtick=5,
         )
         
     )

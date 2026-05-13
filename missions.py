@@ -1,5 +1,6 @@
 from basicFunctions import doMission, checkPLC1, pickUp, placeDown, enterGate1, exitGate1
-import defs, APImir
+import defs
+from API import APImir
 import time
 
 skipfix = 1
@@ -11,93 +12,119 @@ def charge():
     return 
 
 def cfb1():#collect shelf from bay 1
+    print('adding to plc2')
     check()
-    global misText
-    misText = 'Collecting trolley from Bay 1'
+    print('Collecting trolley from Bay 1')
     doMission(defs.dockToShelfB1)
     doMission(defs.footprintWithShelf)
+    print('picking up shelf')
     pickUp()
+    print('leaving dock')
     doMission(defs.leaveDock)   
-    doMission(defs.plc2add) 
+    doMission(defs.plc2add)
     return
 
 def dab1(): #deposit shelf at b1
     check()
-    global misText
-    misText = 'Depositing trolley at Bay 1'
-
+    print('Depositing trolley at Bay 1')
     doMission(defs.dockToShelfB1)
     doMission(defs.defaultFootprint)
     placeDown()
-
-
+    print('leaving')
     doMission(defs.leaveDock)   
+    doMission(defs.plc2add)
     return
 
 def dab2(): #deposit bay 2 dock
     check()
-    global misText
-    misText = 'Depositing trolley at Bay 2'
+    print('Depositing trolley at Bay 2')
     doMission(defs.dockToShelfB2)
     doMission(defs.defaultFootprint)
     placeDown()
+    print('leaving')
     doMission(defs.leaveDock)   
-    doMission(defs.plc2add)   
-    doMission(defs.plc2add)  
+    doMission(defs.plc2add)
     return
 
 
 
 def cfb2(): #collect from bay2
-    #global varInGate1
     check()
-    global misText
-    misText = 'Collecting trolley from Bay 2'
+    print('Collecting trolley from Bay 2')
     doMission(defs.dockToShelfB2)
     doMission(defs.footprintWithShelf)
     pickUp()
-
+    print('leaving')
     doMission(defs.leaveDock)   
-    doMission(defs.plc2add) 
+    doMission(defs.plc2add)  
     return
 
 def da(): #testing for now
     check()
-    global misText
     doMission(defs.LeahsDesk)
     
     return
 def bay3():
     doMission(defs.LeahsDesk)
-    doMission(defs.plc2add) 
+    #doMission(defs.plc2add)   
     return
+
+################
+#decorator to only run each mission once:
 
 def marathon():
-    i = 0
-    while i <= 100:
-        doMission(defs.plc2reset)
-        print('Marathon Lap {i}')
-        cfb1()
-        if checkPLC2 == 1:
+    i = 0 #laps
+    j = 1
+    while i <= 100 and j < 10:
+        print(f'Marathon Lap {i}')
+        #print('checking plc')
+        #doMission(defs.plc2reset)
+        while checkPLC2() == 0:
+
+            doMission(defs.plc2add)
+            print('plc = 0, collecting from b1')
+            cfb1()
+       
+            
+        while checkPLC2() == 2:
+
+            doMission(defs.plc2add)
+            print('plc = 2, depositing at b2')
             dab2()
-        if checkPLC2 == 2:
+            
+        while checkPLC2() == 4:
+
+            doMission(defs.plc2add)
+            print('plc = 4, going to b3')
             bay3()
             time.sleep(10)
-        if checkPLC2 == 3:
+            
+        while checkPLC2() == 6:
+ 
+            doMission(defs.plc2add)
+            print('plc = 6, collecting from b2')
             cfb2()
-        if checkPLC2 == 4:
+            
+        while checkPLC2()== 8:
+            doMission(defs.plc2add)
+            print('plc = 8, depositing at b1')
             dab1()
-        i = i + 1
-
+            i = i + 1
+            print('resetting plc2')
+            
+            doMission(defs.plc12)
+            doMission(defs.leaveDock)
+            doMission(defs.plc2reset)
     return
+
 
 def clearQ():
     return APImir.mirRequest("DELETE", "/mission_queue")
 
 
 def checkPLC2():
-    plc1 = APImir.mirRequest('GET','/registers/2')
-    value = plc1.get('value')
+    plc2 = APImir.mirRequest('GET','/registers/2')
+    value = plc2.get('value')
     return value
 #----------------BAY 2 logic ------------------------------------
 

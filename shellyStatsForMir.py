@@ -2,8 +2,8 @@
 
 #info about shelly
 
-import APIshelly
-import shellyGateControl
+import API.APIshelly as APIshelly
+import shellyGateControl as shellyGateControl
 
 get = APIshelly.get
 request = APIshelly.Request

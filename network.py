@@ -1,6 +1,9 @@
-import APImir, APIshelly
-from tuya_relay_python import connect_to_relay
+from API import APImir, APIshelly
+#from tuya_relay_python import connect_to_relay
 import time
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.options import Options
 
 
 
@@ -62,8 +65,26 @@ def stream():
     streamLat = 66
     return streamLat
 
+def signallvl():
+    driver = webdriver.Chrome()
+    driver.get('http://192.168.30.17/monitoring/diagnostics')
+    element = driver.find_element(
+        By.CSS_SELECTOR,
+        '[id = "diagnopstics_diagnostics_value_/Computer/WifiSignal Level"]'
+    )
+
+    signal = element.get_attribute('text_content')
+
+    return signal
+
 
 def sensors(): 
     #load file at start, refresh if error(state id 10)
     return
 #print(APImir.mirRequest('GET', '/wifi'))
+
+print(signallvl())
+print(signallvl())
+print(signallvl())
+print(signallvl())
+print(signallvl())

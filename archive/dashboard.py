@@ -1,10 +1,10 @@
 from dash import Dash, html, dcc, ctx
-import defs
+import defs as defs
 import dash_ag_grid as dag
 import pandas as pd
 from dash.dependencies import Input, Output, State
 from MIRstatus import getBattery, timeRemaining, isAvailable, getNet, misText, modekeystate
-import CallTo
+import CallTo as CallTo
 import base64
 import dash_bootstrap_components as dbc
 

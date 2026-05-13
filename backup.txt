@@ -119,3 +119,138 @@ def graph(n):
     )
     
     return fig
+
+
+
+    #############################
+    def marathon():
+        i = 0 #laps
+        j = 1
+        while i <= 100 and j < 10:
+            #print(f'Marathon Lap {i}')
+            check = checkPLC2()
+            #print('checking plc')
+            
+            while check == 0:
+
+                doMission(defs.plc2add)
+                print('plc = 0, collecting from b1')
+                cfb1()
+                
+            while check == 2:
+
+                doMission(defs.plc2add)
+                print('plc = 1, depositing at b2')
+                dab2()
+                
+            while check == 4:
+
+                doMission(defs.plc2add)
+                print('plc = 2, going to b3')
+                bay3()
+                time.sleep(10)
+                
+            while check == 6:
+                
+                doMission(defs.plc2add)
+                print('plc = 3, collecting from b2')
+                cfb2()
+                
+            while check== 8:
+
+                doMission(defs.plc2add)
+                print('plc = 4, depositing at b1')
+                dab1()
+                i = i + 1
+                print('resetting plc2')
+                doMission(defs.plc2reset)
+                
+
+        return
+        #########
+        FIXED:
+    
+def marathon():
+    i = 0 #laps
+    j = 1
+    while i <= 100 and j < 10:
+        #print(f'Marathon Lap {i}')
+        check = checkPLC2()
+        #print('checking plc')
+        
+        while checkPLC2() == 0:
+            doMission(defs.plc2add)  
+
+            print('check 0')
+            time.sleep(2)
+            print('done')
+            doMission(defs.plc2add)  
+
+            '''
+
+            doMission(defs.plc2add)
+            print('plc = 0, collecting from b1')
+            cfb1()
+            '''
+            
+        while checkPLC2() == 2:
+            doMission(defs.plc2add)  
+
+            print('check 2')
+            time.sleep(2)
+            print('done')
+            doMission(defs.plc2add) 
+            '''
+
+            doMission(defs.plc2add)
+            print('plc = 1, depositing at b2')
+            dab2()
+            '''
+            
+        while checkPLC2() == 4:
+            doMission(defs.plc2add)  
+
+            print('check 4')
+            time.sleep(2)
+            print('done')
+            doMission(defs.plc2add)             
+            '''
+
+            doMission(defs.plc2add)
+            print('plc = 2, going to b3')
+            bay3()
+            time.sleep(10)
+            '''
+            
+        while checkPLC2() == 6:
+            doMission(defs.plc2add)  
+
+            print('check 6')
+            time.sleep(2)
+            print('done')
+            doMission(defs.plc2add) 
+            '''
+            doMission(defs.plc2add)
+            print('plc = 3, collecting from b2')
+            cfb2()
+            '''
+            
+        while checkPLC2()== 8:
+            doMission(defs.plc2add)  
+
+            print('check 8')
+            time.sleep(2)
+            print('done')
+            doMission(defs.plc2reset) 
+            '''
+
+            doMission(defs.plc2add)
+            print('plc = 4, depositing at b1')
+            dab1()
+            i = i + 1
+            print('resetting plc2')
+            doMission(defs.plc2reset)
+            '''
+            
+
+    return

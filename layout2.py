@@ -394,7 +394,7 @@ layout2 = html.Div(
                         dbc.Col( #r2c2 MAP
                             html.Div([ 
                                 dcc.Graph(id='plot'),
-                                dcc.Interval(id='interval-comp2', interval = 6*1000, n_intervals = 0)
+                                
                             ])
                         ) #r2c2 close
 
@@ -590,7 +590,7 @@ layout2 = html.Div(
             interval=2*1000,
             n_intervals=0),
 
-       
+        dcc.Interval(id='interval-comp2', interval = 4*1000, n_intervals = 0)
 
 
 

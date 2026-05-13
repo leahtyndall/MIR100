@@ -1,4 +1,4 @@
-import APImir, shellyGateControl, defs, MIRstatus
+import API.APImir as APImir, shellyGateControl as shellyGateControl, defs as defs, MIRstatus as MIRstatus
 import time
 from tuya_relay_python import connect_to_relay
 
@@ -41,9 +41,9 @@ def pickUp():
         if checkPLC1() == 1:
             print("Preparing pistons")
             connect_to_relay.pick()
-            time.sleep(5)   
+            time.sleep(3)   
             setPLC1()
-            time.sleep(2)
+            #time.sleep(2)
             return 
 
 def placeDown():
