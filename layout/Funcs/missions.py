@@ -131,10 +131,10 @@ def checkPLC2():
 def b2LEFT(): #deposit left bay2
     doMission(enterGate1())
     doMission(defs.Desk1)
-    inc()
+    inc() #tells program mir is intside gate, & will need to run exit sequence to carry out next mission
     return 
 
-def check():
+def check(): #checks if mir is inside gate
     print('checking if in gate 1')
     with open('data.txt', 'rt') as f:
         x = f.read()
@@ -158,7 +158,7 @@ def dec(): #not in gate
 
 
 # -------------testing----------------------
-def checktest():
+def checktest(): 
     print('checking if in gate 1')
     with open('data.txt', 'rt') as f:
         x = f.read()
