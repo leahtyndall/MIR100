@@ -1,10 +1,10 @@
 from dash import dcc
 import pandas as pd
 import plotly.express as px
-from API import APImir
+from layout.Funcs.API import APImir
 import csv
 import time
-import network
+import layout.Funcs.network as network
 
 mulLab = '4d5efe2a-f6c3-d3fe-556f-077cd8313b0c'
 

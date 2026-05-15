@@ -2,7 +2,7 @@ import tinytuya
 import time
 import json
 
-#not used?
+
 class TuyaDeviceController:
     def __init__(self, dev_id, address, local_key, version=3.4):
         """Initialize Tuya device controller"""
@@ -47,7 +47,7 @@ class TuyaDeviceController:
         """
         try:
             result = self.device.turn_on(switch=switch)
-            #print(f"✓ Turned ON (switch {switch})")
+            print(f"✓ Turned ON (switch {switch})")
             time.sleep(0.5)
             return result #self.get_status()
         except Exception as e:
@@ -117,28 +117,33 @@ class TuyaDeviceController:
             #print(f"❌ Error setting DPS: {e}")
             return None
 
-controller = TuyaDeviceController(
-    dev_id='bfe90802d000270bdefwk3',
-    address='93.107.35.19',  # Auto-discover IP
-    local_key='R>ibtHCe#GRfM?C6',
-    version=3.4
-)
+    def pick():
+        controller = TuyaDeviceController(
+            dev_id='bfe90802d000270bdefwk3',
+            address='Auto',  # Auto-discover IP
+            local_key='R>ibtHCe#GRfM?C6',
+            version=3.4
+        )
+        controller.turnOff(switch=1)
+        controller.turnOff(switch=2)
 
-def pick():
+        controller.turnOn(switch=2)
+        time.sleep(5)
+        return
+    
+    def place():
+        controller = TuyaDeviceController(
+            dev_id='bfe90802d000270bdefwk3',
+            address='Auto',  # Auto-discover IP
+            local_key='R>ibtHCe#GRfM?C6',
+            version=3.4
+        )
+        controller.turnOn(switch=1)
+        controller.turnOn(switch=2)
 
-    controller.turnOff(switch=1)
-    controller.turnOff(switch=2)
-
-    controller.turnOn(switch=2)
-    time.sleep(5)
-    return
-
-def place():
-    controller.turnOn(switch=1)
-    controller.turnOn(switch=2)
-
-    controller.turnOff(switch=2)
-    time.sleep(5)
-    return
+        controller.turnOff(switch=2)
+        time.sleep(5)
+        return
     
 # Example usage
+

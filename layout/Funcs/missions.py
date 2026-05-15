@@ -1,6 +1,6 @@
-from basicFunctions import doMission, checkPLC1, pickUp, placeDown, enterGate1, exitGate1
-import defs
-from API import APImir
+from layout.Funcs.basicFunctions import doMission, checkPLC1, pickUp, placeDown, enterGate1, exitGate1
+import layout.Funcs.defs as defs
+from layout.Funcs.API import APImir
 import time
 
 skipfix = 1

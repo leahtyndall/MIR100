@@ -1,8 +1,8 @@
-import basicFunctions
-from API import APImir
-import defs
-import shellyStatsForMir as shellyStatsForMir
-import shellyGateControl as shellyGateControl
+import layout.Funcs.basicFunctions as basicFunctions
+from layout.Funcs.API import APImir
+import layout.Funcs.defs as defs
+import layout.Funcs.shellyStatsForMir as shellyStatsForMir
+import layout.Funcs.shellyGateControl as shellyGateControl
 import time, json
 import pandas as pd
 import base64

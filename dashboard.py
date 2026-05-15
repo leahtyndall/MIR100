@@ -1,18 +1,18 @@
 from dash import Dash, html, ctx
-import network, subscriber
+import layout.Funcs.network as network, layout.Funcs.subscriber as subscriber
 from dash.dependencies import Input, Output
-from MIRstatus import getBattery, timeRemaining, stateID, getError
-import missions
-import networkMap
+from layout.Funcs.MIRstatus import getBattery, timeRemaining, stateID, getError
+import layout.Funcs.missions as missions
+import layout.Funcs.networkMap as networkMap
 import pandas as pd
 import plotly.express as px
 import csv
 import plotly.graph_objects as go
 #import tuya_relay_python.connect_to_relay as relay
-import basicFunctions as bf
+import layout.Funcs.basicFunctions as bf
 import dash_bootstrap_components as dbc
 
-from layout2 import layout2
+from layout.layout2 import layout2
 
 
 
@@ -227,4 +227,4 @@ def graph(n):
 
 if __name__ == '__main__':
     app.run(debug=True)
-    #app.run(host='0.0.0.0', port=8055, debug=False)
+    #   app.run(host='0.0.0.0', port=8055, debug=False)

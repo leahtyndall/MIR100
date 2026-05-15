@@ -1,9 +1,9 @@
 from dash import Dash, html, dcc, ctx
-import defs as defs
+import layout.Funcs.defs as defs
 import dash_ag_grid as dag
 import pandas as pd
 from dash.dependencies import Input, Output, State
-from MIRstatus import getBattery, timeRemaining, isAvailable, getNet, misText, modekeystate
+from layout.Funcs.MIRstatus import getBattery, timeRemaining, isAvailable, getNet, misText, modekeystate
 import CallTo as CallTo
 import base64
 import dash_bootstrap_components as dbc
@@ -229,7 +229,7 @@ def updatemisQue(n):
 )
 def buttonClicked(b1,b2,b3):
     if 'mydesk' == ctx.triggered_id:
-        return CallTo.doMission(defs.LeahsDesk)
+        return 
 
 
     elif 'pick' == ctx.triggered_id:

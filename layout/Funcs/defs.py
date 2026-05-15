@@ -1,4 +1,4 @@
-from tuya_relay_python import connect_to_relay 
+from layout.Funcs.tuya_relay_python import connect_to_relay 
 import time
 #######################################################################
 #network

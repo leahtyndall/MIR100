@@ -1,9 +1,9 @@
-import API.APIshelly, API.APImir
+import layout.Funcs.API.APIshelly, layout.Funcs.API.APImir
 import time
 
-get = API.APIshelly.get
-request = API.APIshelly.Request
-post = API.APIshelly.post
+get = layout.Funcs.API.APIshelly.get
+request = layout.Funcs.API.APIshelly.Request
+post = layout.Funcs.API.APIshelly.post
 id = "?id=0"
 on = "&on=true"
 off = "&on=false"
@@ -32,7 +32,7 @@ def shellyStatus():
 
 
 def disToTarget():
-    statusData = API.APImir.mirRequest("GET", "/status") 
+    statusData = layout.Funcs.API.APImir.mirRequest("GET", "/status") 
     return round(statusData.get("distance_to_next_target"))
 
 def openGate():
