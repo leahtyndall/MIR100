@@ -1,11 +1,12 @@
 import websocket
 import json
 import threading
+
 #gesture recognition
 #import yolo
 #publish results(labels ect) to a new topic
 
-ROS_IP = "192.168.30.100"  # your ROS2 laptop IP
+ROS_IP = "192.168.30.100"  
 fps = 0
 
 def on_message(ws, message):
