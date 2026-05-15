@@ -5,6 +5,8 @@ import time
 import requests
 from playwright.sync_api import sync_playwright
 
+#work in progress
+
 with sync_playwright() as p:
     browser = p.chromium.launch(headless=False)
     context = browser.new_context()
