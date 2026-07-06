@@ -46,6 +46,7 @@ def ping(): #status response times
     end = time.time()
     
     latency_ms = (end - start) * 1000
+    latency_ms = round(latency_ms,2)
     
     return latency_ms, response.status_code
 
@@ -63,11 +64,11 @@ def taskResponse():
 
 def stream():
     data = 'http://192.168.30.100:8082/1/config/list'
-    print(data)
+    #print(data)
     streamLat = 66
     return streamLat
 
-def signallvl():
+'''def signallvl():
     driver = webdriver.Chrome()
     driver.get('http://192.168.30.17/monitoring/diagnostics')
     element = driver.find_element(
@@ -78,15 +79,9 @@ def signallvl():
     signal = element.get_attribute('text_content')
 
     return signal
-
+'''
 
 def sensors(): 
     #load file at start, refresh if error(state id 10)
     return
 #print(APImir.mirRequest('GET', '/wifi'))
-
-print(signallvl())
-print(signallvl())
-print(signallvl())
-print(signallvl())
-print(signallvl())

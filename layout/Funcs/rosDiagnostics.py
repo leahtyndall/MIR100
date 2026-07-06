@@ -2,21 +2,23 @@ import websocket
 import json
 import threading
 from playwright.sync_api import sync_playwright
+import time
 
 #add gesture recognition??
 #import yolo
 #publish results(labels ect) to a new topic
 
-ROS_IP = "192.168.30.11"  
-streamlink = 'http://192.168.30.100:9090/stream?topic=/image_raw&type=ros_compressed'
-fps = 5
+ROS_IP = "192.168.30.39"  
+signal = None
 
 def on_message(ws, message):
-    global fps
+    global signal
     data = json.loads(message)
-    if data.get("topic") == "/metrics/fps":
-        fps = data["msg"]["data"]
-        #fps that ROS laptop stream sees
+    if data.get("topic") == "/diagnostics":
+        for status in data["msg"]["status"]:
+            for kv in status.get("values", []):
+                if kv["key"] == "Signal Level":
+                    signal = kv["value"]
 
 #find fps of stream over websocket
 
@@ -24,7 +26,7 @@ def on_open(ws):
     # subscribe to topic
     subscribe_msg = {
         "op": "subscribe",
-        "topic": "/metrics/fps"
+        "topic": "/diagnostics"
     }
     ws.send(json.dumps(subscribe_msg))
 
@@ -39,9 +41,12 @@ wst.daemon = True
 wst.start()
 
 
-def getfps():
-    global fps
-    return fps
-
-#Webpage data
+def getsignal():
+    global signal
+    while signal is None:
+        time.sleep(1)
+  
+    signal = signal.replace('dBm', '')
+    signal = signal.replace('-','')
+    return signal
 

@@ -4,6 +4,8 @@ from dash.dependencies import Input, Output
 import dash_bootstrap_components as dbc
 import dash_player
 import plotly.graph_objects as go
+import layout.Funcs.missions as mis
+import pandas as pd
 
 COLOURS = { #CHANGE TO VODAFONE THEME + ADD LOGOS
     'red':"#AF1D18",
@@ -15,12 +17,32 @@ COLOURS = { #CHANGE TO VODAFONE THEME + ADD LOGOS
     #'red': "#C52620"
 }
 
+with open('layout/assets/data.txt', 'rt') as f:
+    x = f.read()
+    f.close()
+    if '0' in x:
+        PISTONCOL = {
+            'piston': '#AF1D18'
+        }
+        #pistonState = 'Pistons up'
+    if '1' in x:
+        PISONCOL = {
+            'piston': '#8FC78F'
+        }
+        #pistonState = 'Pistons down'
+
 COLOURS3 ={'colour'}
+
+
+
+df = pd.read_csv('layout/assets/PositionList.csv')
+name = df['label']
+#guid = df['value']
 
 layout2 = html.Div(
     style = {'backgroundColor': COLOURS['backgnd'],'font-family':'Arial', 'font-size':'18px', 'line-height':'1','wdth':'100%', 'height':'100vh'}, children= [
         dcc.Tabs(style = {'height':'40px'}, children = [
-            dcc.Tab(label='Dashboard', children=[
+            dcc.Tab(label='Dashboard 🤖', children=[
                 dbc.Container([  
                     dbc.Row([#title bar - row 1
                         dbc.Col(html.Div([ #r1c1
@@ -102,10 +124,24 @@ layout2 = html.Div(
                                             'margin':'5px',
                                             'verticalAlign':'top',
                                             'height':'40px'
-                                        }),
+                                        }
+                                    ),
                                     #html.P('Executing: '),
                                     html.P(id = 'state'),
-                                    html.P(id = 'text')], 
+
+                                    html.P(id = 'pistonState',
+                                        style={
+                                            'color': COLOURS['white'],
+                                            'width':'40%',
+                                            'padding':'8px',
+                                            'backgroundColor': PISTONCOL['piston'],
+                                            'borderRadius':'10px',
+                                            'margin':'5px',
+                                            'verticalAlign':'top',
+                                            'height':'30px',
+                                            'font-size': '14px'
+                                        })],
+                                    
                                         style={
                                             'color': COLOURS['black'],
                                             'width':'100%',
@@ -118,7 +154,8 @@ layout2 = html.Div(
                                             'height': '150px',
                                             'box-shadow':'5px 5px 5px grey'
                                             }
-                                )),
+                                )
+                                ),
                             
                             dbc.Row([ #R2c1r2 {middle}
                                 dbc.Col(html.Div([ #col 3
@@ -134,18 +171,56 @@ layout2 = html.Div(
                                     ),
                                     
                                             
-                                    dcc.Button('Go to charger', id = 'charge', n_clicks = 0, style={'color':COLOURS['black'], 'outline':COLOURS['black']}),
-                                    dcc.Button('Collect from B1', id = 'cfb1', n_clicks = 0, style={'color':COLOURS['black']}),
-                                    dcc.Button('Deposit at B1',id = 'dab1', n_clicks = 0, style={'color':COLOURS['black']} ),
-                                    dcc.Button('Collect from B2', id='cfb2', n_clicks = 0, style={'color':COLOURS['black']}),
-                                    dcc.Button('Deposit at B2', id='dab2', n_clicks = 0, style={'color':COLOURS['black']}),
-                                    dcc.Button('Dashboard Area', id='da', n_clicks = 0, style={'color':COLOURS['black']}),
-                                    dcc.Button('Left side of B2', id ='b2LEFT', n_clicks = 0, style={'color':COLOURS['black']}),
-                                    dcc.Button('Marathon', id ='marathon', n_clicks = 0, style={'color':COLOURS['black']}),
-                                    dcc.Button('Clear Queue', id ='clear', n_clicks = 0, style={'color':COLOURS['black']}),
+                                    dcc.Button('Go to charger', id = 'charge', n_clicks = 0, style={'color':COLOURS['red'], 'outline':COLOURS['black']}), #1
+                                    #--delivery missions--
+                                    dcc.Button('Collect from B1', id = 'cfb1', n_clicks = 0, style={'color':COLOURS['black']}),#2
+                                    dcc.Button('Deposit at B1',id = 'dab1', n_clicks = 0, style={'color':COLOURS['black']} ),#3
+                                    dcc.Button('Collect from B2', id='cfb2', n_clicks = 0, style={'color':COLOURS['black']}),#4
+                                    dcc.Button('Deposit at B2', id='dab2', n_clicks = 0, style={'color':COLOURS['black']}),#5
+                                    dcc.Button('Left side of B2', id ='b2LEFT', n_clicks = 0, style={'color':COLOURS['black']}),#6
+                                    #-===--Temporary-----
+                                    dcc.Button('Pick', id='pick', n_clicks = 0, style={'color':COLOURS['black']}),#7
+                                    dcc.Button('Place', id='place', n_clicks = 0, style={'color':COLOURS['black']}),#7
+                                    #-------------------
+                                    dcc.Button('Refresh List', id ='refresh', n_clicks = 0, style={'color':COLOURS['red']}),#8
+                                    dcc.Button('Clear Queue', id ='clear', n_clicks = 0, style={'color':COLOURS['red']}),#9
+
 
                                     html.Div(id ='container', children = '')], 
+    
+                                    
 
+                                        style={
+                                            'color': COLOURS['black'],
+                                            'width':'100%',
+                                            'padding':'10px',
+                                            'backgroundColor': COLOURS['white'],
+                                            'borderRadius':'10px',
+                                            'margin':'10px',
+                                            'verticalAlign':'top',
+                                            'display': 'inline-block',
+                                            'height': '180px',
+                                            'box-shadow':'5px 5px 5px grey'
+                                            }
+                                )) #r2c1r2 close                
+                            ]),
+                            dbc.Row([ #R2c1r2 {middle}
+                                dbc.Col(html.Div([ #col 3
+                                    html.H3('Other Locations:', 
+                                        style={
+                                            'color': COLOURS['white'],
+                                            'padding':'8px',
+                                            'backgroundColor': COLOURS['red'],
+                                            'borderRadius':'10px',
+                                            'margin':'5px',
+                                            'verticalAlign':'top'
+                                            }
+                                    ),
+                                    
+                                    dcc.Dropdown(name, id ='posList'),
+                                    dcc.Button('Submit', id = 'submit', n_clicks = 0),
+                                    html.Div(id='ddOutput')       
+                                ], 
                                         style={
                                             'color': COLOURS['black'],
                                             'width':'100%',
@@ -201,7 +276,10 @@ layout2 = html.Div(
                     #################################################################            
                         dbc.Col( #r2c2 MAP
                             html.Div([ 
-                                html.Img(src='http://192.168.30.100:8080/stream?topic=/image_raw&type=ros_compressed', 
+                                html.Img(src = "http://192.168.30.109:8080/stream?topic=/camera/camera/color/image_raw",
+                                         #http://192.168.30.109:8080/stream?topic=/camera/camera/color/image_raw
+                                         #'http://192.168.30.102:8080/stream?topic=/riskam/annotated_image',
+                                    #src='http://192.168.30.102:8080/stream?topic=/image_raw&type=ros_compressed', 
                                     style={'width': '100%',
                                         'width': '100%',
                                         'padding':'10px',
@@ -220,7 +298,7 @@ layout2 = html.Div(
 ############################################################################################  
 # TAB 2
 ############################################################################################ 
-            dcc.Tab(label='Info', children=[
+            dcc.Tab(label='Info 📊', children=[
                 dbc.Container([  
                     dbc.Row([#title bar - row 1
                         dbc.Col(html.Div([ #r1c1
@@ -289,7 +367,7 @@ layout2 = html.Div(
                                             'margin':'20px',
                                             'verticalAlign':'top',
                                             'display': 'inline-block',
-                                            'height': '120px',
+                                            'height': '140px',
                                             'box-shadow':'5px 5px 5px grey'
                                             }                                   #other data in this block enter here
 
@@ -306,7 +384,8 @@ layout2 = html.Div(
                                             'verticalAlign':'top',
                                             'height':'40px'}),
                                     #html.P('Executing: '),
-                                    html.P(id = 'fps')],
+                                    html.P(id = 'fps'),
+                                    html.P(id = 'actualfps')],
                                     #html.P('Delay: ~4-5ms')],
                                     #html.P(id = '')], 
                                         style={
@@ -321,7 +400,7 @@ layout2 = html.Div(
                                             'height': '120px',
                                             'box-shadow':'5px 5px 5px grey'
                                             }  
-                            
+                                    
 
                                 )),
                             
@@ -369,7 +448,7 @@ layout2 = html.Div(
                                             'height':'40px'
                                         }
                                     ),
-                                        html.Div(id = 'netstrength')],
+                                        html.Div(id = 'signallevel')],
                                         style={
                                             'color': COLOURS['black'],
                                             'width':'100%',
@@ -406,7 +485,7 @@ layout2 = html.Div(
 
 
             ]),#row 5
-            dcc.Tab(label='Project Summary',children =[
+            dcc.Tab(label='Project Summary 🎯',children =[
                 dbc.Container([
                     dbc.Row([#title bar - row 1
                         dbc.Col(html.Div([ #r1c1
@@ -483,7 +562,7 @@ layout2 = html.Div(
                                             'word-spacing':'3px',
                                             'line-height':'1.3',
                                             'display': 'inline-block',
-                                            'height': '200px',
+                                            'height': '220px',
                                             'box-shadow':'5px 5px 5px grey'
                                             }                                   #other data in this block enter here
 
@@ -506,7 +585,7 @@ layout2 = html.Div(
                                     html.P('The main objective of this project is to showcase a precise benchmark comparison between ' \
                                     'telecommunication speeds over Wi-Fi networks and Vodafones 5G Mobile Private Network. With ' \
                                     'autonomous robots, having fast network speeds is the key to automation - especially in a busy ' \
-                                    'working enviornement where real-time feedback is essential. Standard Wi-Fi networks alone may keep ' \
+                                    'working enviornement where real-time feedback is essential. Standard Wi-Fi networks alone may not keep ' \
                                     'up with the robots demands. By gathering latency and bandwidth data from both Wi-Fi and Vodafones 5G ' \
                                     'MPN, we will measure the definitive contrast of the twos capabilties.' \
                                     )],
@@ -521,7 +600,7 @@ layout2 = html.Div(
                                             'word-spacing':'3px',
                                             'line-height':'1.3',
                                             'display': 'inline-block',
-                                            'height': '180px',
+                                            'height': '200px',
                                             'box-shadow':'5px 5px 5px grey'
                                             }                                 
 
@@ -590,8 +669,10 @@ layout2 = html.Div(
             interval=2*1000,
             n_intervals=0),
 
-        dcc.Interval(id='interval-comp2', interval = 4*1000, n_intervals = 0)
+        dcc.Interval(id='interval-comp2', interval = 4*1000, n_intervals = 0),
 
+        dcc.Store(id='browser-fps-store', data=0),
+        dcc.Interval(id='fps-ticker', interval=1000, n_intervals=0)
 
 
 ])

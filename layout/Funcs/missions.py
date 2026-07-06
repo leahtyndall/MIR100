@@ -1,9 +1,13 @@
-from layout.Funcs.basicFunctions import doMission, checkPLC1, pickUp, placeDown, enterGate1, exitGate1
+from layout.Funcs.basicFunctions import doMission, checkPLC1, pickUp, placeDown, apprGate1, exitGate1
 import layout.Funcs.defs as defs
-from layout.Funcs.API import APImir
+from layout.Funcs.API import APImir, APIshelly
+'''from basicFunctions import doMission, checkPLC1, pickUp, placeDown, enterGate1, exitGate1
+import defs as defs
+from API import APImir, APIshelly'''
 import time
-
-skipfix = 1
+import json
+import requests
+import csv
 
 def charge():
     check()
@@ -69,18 +73,63 @@ def bay3():
     #doMission(defs.plc2add)   
     return
 
-################
-#decorator to only run each mission once:
+def cfb1NP():#collect shelf from bay 1
+    print('Collecting trolley from Bay 1')
+    doMission(defs.dockToShelfB1)
+    doMission(defs.leaveDock)   
+    return
+
+def dab1NP(): #deposit shelf at b1
+    print('Depositing trolley at Bay 1')
+    doMission(defs.dockToShelfB1)
+    doMission(defs.leaveDock)   
+    return
+
+def dab2NP(): #deposit bay 2 dock
+    print('Depositing trolley at Bay 2')
+    doMission(defs.dockToShelfB2)
+    doMission(defs.leaveDock)   
+    return
+
+
+
+def cfb2NP(): #collect from bay2
+    print('Collecting trolley from Bay 2')
+    doMission(defs.dockToShelfB2)
+    doMission(defs.leaveDock)   
+    return
+
+def daNP(): #testing for now
+    doMission(defs.LeahsDesk)
+    
+    return
+def bay3NP():
+    doMission(defs.LeahsDesk)
+    #doMission(defs.plc2add)   
+    return
+
+#----marathon stuff------------
+def marathonNP(): #no pickup
+    x = 0
+    while x < 100:
+        cfb1NP()
+        dab2NP()
+        bay3NP()
+        cfb2NP()
+        dab1NP()
+        bay3NP()
+        x = x+1
+    return
 
 def marathon():
     i = 0 #laps
     j = 1
     while i <= 100 and j < 10:
-        print(f'Marathon Lap {i}')
+        
         #print('checking plc')
         #doMission(defs.plc2reset)
         while checkPLC2() == 0:
-
+            print(f'Marathon Lap {i}')
             doMission(defs.plc2add)
             print('plc = 0, collecting from b1')
             cfb1()
@@ -116,7 +165,7 @@ def marathon():
             doMission(defs.leaveDock)
             doMission(defs.plc2reset)
     return
-
+#-------------------------------------
 
 def clearQ():
     return APImir.mirRequest("DELETE", "/mission_queue")
@@ -129,38 +178,45 @@ def checkPLC2():
 #----------------BAY 2 logic ------------------------------------
 
 def b2LEFT(): #deposit left bay2
-    doMission(enterGate1())
+    apprGate1()
+    doMission(defs.enterG1())
     doMission(defs.Desk1)
     inc() #tells program mir is intside gate, & will need to run exit sequence to carry out next mission
     return 
 
 def check(): #checks if mir is inside gate
     print('checking if in gate 1')
-    with open('data.txt', 'rt') as f:
+    with open('layout/assets/data.txt', 'rt') as f:
         x = f.read()
         f.close()
+        if '2' in x:
+            print('Leaving charging station.')
+            doMission(defs.leaveCharger) #reverses out of dock to avoid spinning & hitting sides
+            dec() #reset 
         if '1' in x:
             print('In gate, executing exit mission.')
             exitGate1()
-            dec()
+            dec() #reset to show not in g1          
         if '0' in x:
-            print('Not in gate.')
+            print('Not in gate, continuing.')
         return
-
+ 
 def inc(): #inside gate
-    with open('data.txt', 'wt') as f:
+    with open('layout/assets/data.txt', 'wt') as f:
         f.write('1')
     return 
 def dec(): #not in gate
-    with open('data.txt', 'wt') as f:
+    with open('layout/assets/data.txt', 'wt') as f:
         f.write('0')
     return 
+def charging():
+    with open('layout/assets/data.txt', 'wt') as f:
+        f.write('2')
+    return 
 
-
-# -------------testing----------------------
 def checktest(): 
     print('checking if in gate 1')
-    with open('data.txt', 'rt') as f:
+    with open('layout/assets/data.txt', 'rt') as f:
         x = f.read()
         f.close()
         print(x)
@@ -170,4 +226,48 @@ def checktest():
         if '0' in x:
             print('Not in gate, continuing.')
         return
+    
+# -------------Dropdown list----------------------
 
+class positions:
+    #writes guids and names of POSITIONS to csv    
+    def refreshList():
+        with open('layout/assets/PositionList.csv', 'r+') as f:
+            f.readline() # read one line
+            f.truncate(f.tell()) # terminate the file here
+        headers  = {
+            "Authorization": "Basic ZGlzdHJpYnV0b3I6NjJmMmYwZjFlZmYxMGQzMTUyYzk1ZjZmMDU5NjU3NmU0ODJiYjhlNDQ4MDY0MzNmNGNmOTI5NzkyODM0YjAxNA==",
+            "Accept-Language" : "en_US",
+            "Content-Type": "application/json"
+        }
+        url = 'http://192.168.30.45/api/v2.0.0/maps/bd07dd40-7461-11f1-80be-f44d306dcb63/positions'
+        data = APImir.mirRequest('GET',f'/maps/{defs.allBays}/positions')
+        response = requests.get(url, headers= headers)
+        total = int(response.headers.get('x-total-count',0))
+
+        i = 0
+        allnames = []
+        allguids = []
+        while i < total:
+            names = data[i].get('name')
+            guids = data[i].get('guid')
+            allnames.append(names)
+            allguids.append(guids)
+            i = i+1
+        j = 0
+        while j < total:
+            fields = ['label', 'guid']
+            data = [
+                {f'label': allnames[j], 'guid': allguids[j]}
+            ]
+
+
+            with open('layout/assets/PositionList.csv', mode = 'at', newline='') as d:  
+                
+                writer = csv.DictWriter(d, fieldnames=fields)
+                writer.writerows(data)
+                j=j+1
+                d.close()
+        return
+    
+    #func to turn to mission in basicFunctions

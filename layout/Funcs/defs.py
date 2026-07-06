@@ -1,21 +1,26 @@
+#from tuya_relay_python import connect_to_relay 
 from layout.Funcs.tuya_relay_python import connect_to_relay 
+import layout.Funcs.basicFunctions as basicFunctions
 import time
 #######################################################################
 #network
 #######################################################################
-mul_lab = "4d5efe2a-f6c3-d3fe-556f-077cd8313b0c"
+mul_lab = "38c554e6-b68b-43cd-b4a1-b7f7cbc714c5"
 
+#map
+allBays = "bd07dd40-7461-11f1-80be-f44d306dcb63"
 #######################################################################
 #missions
 #######################################################################
-chargingStation = "8adac375-2c3d-11f1-8b7b-f44d306dcb63"
-
-MarathonTest = "0dbf65b4-1c6b-11f1-9e24-f44d306dcb63"
-ExcusemeTest = "37d167ab-1640-11f1-acd6-f44d306dcb63"
-LeahsDesk = "79449806-1e17-11f1-9e24-f44d306dcb63"
-ApproachGate1 = "47477595-22c4-11f1-8d1e-f44d306dcb63"
-ExitGate1 = "7e510fc1-22d3-11f1-8d1e-f44d306dcb63"
-Desk1 = "4f0d65a2-22d3-11f1-8d1e-f44d306dcb63"
+chargingStation = "76a5ddbd-75ff-11f1-a0a7-f44d306dcb63"
+DropDown = "4082a527-76b9-11f1-a507-f44d306dcb63" 
+MarathonTest = "c0ec2b88-7613-11f1-a056-f44d306dcb63" #UPDATE
+B3Demo = "07e06440-7478-11f1-9f07-f44d306dcb63"
+LeahsDesk = "1bd779cf-76b7-11f1-a507-f44d306dcb63" 
+apprG1 = "ef103854-76b6-11f1-a507-f44d306dcb63"
+enterG1 = "912913b9-76b0-11f1-a507-f44d306dcb63"
+ExitGate1 = "f4e45c86-76af-11f1-a507-f44d306dcb63"
+leaveCharger = "afeece9e-76c7-11f1-ae32-f44d306dcb63"
 
 #######################################################################
 ## footprints
@@ -27,18 +32,20 @@ footprintWithShelf = '54b23ee4-283b-11f1-8f8d-f44d306dcb63'
 #######################################################################
 ## Shelf 
 #######################################################################
-dockToShelfB1 = "6794c9a0-28e7-11f1-8f8d-f44d306dcb63"
-dockToShelfB2 =  "b50b4ba2-29c2-11f1-8f8d-f44d306dcb63"
-leaveDock = "40cab873-29bf-11f1-8f8d-f44d306dcb63"
-plc12 = "cb503236-4934-11f1-807f-f44d306dcb63"
-plc2add = "ed4032b0-494b-11f1-807f-f44d306dcb63"
-plc2reset = "050130cf-494c-11f1-807f-f44d306dcb63"
+dockToShelfB1 = "064d772c-75f0-11f1-a0a7-f44d306dcb63"
+dockToShelfB2 =  "c059dd5f-75f1-11f1-a0a7-f44d306dcb63"
+leaveDock = "16200ac6-76c2-11f1-ae32-f44d306dcb63"
+plc12 = "b41361fe-7477-11f1-9f07-f44d306dcb63" 
+plc2add = "d999e717-7477-11f1-9f07-f44d306dcb63"
+plc2reset = "ed573610-7477-11f1-9f07-f44d306dcb63"
 
 def pick():
     connect_to_relay.pick()
+    basicFunctions.pistonUp()
     return
     
 def place():
     connect_to_relay.place()
-    return
+    basicFunctions.pistonDown()
 
+    return

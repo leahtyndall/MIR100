@@ -2,11 +2,11 @@ from dash import dcc
 import pandas as pd
 import plotly.express as px
 from layout.Funcs.API import APImir
+import layout.Funcs.rosDiagnostics as ros
 import csv
 import time
 import layout.Funcs.network as network
 
-mulLab = '4d5efe2a-f6c3-d3fe-556f-077cd8313b0c'
 
 colours = {
     'excellent':"#2BC1D4",
@@ -18,23 +18,23 @@ colours = {
 def getData():
     #print('getting data')
     coords = APImir.mirRequest('GET', '/status').get('position')
+    state = APImir.mirRequest('GET', '/status').get('state_text')
     x= coords.get('x')
     y= coords.get('y')
-    
-    strength = network.mullab()
+
+    signallevel = ros.getsignal()
     #print(x,y) 
     #print(strength)
-    fields=['x','y','strength']
+    fields=['x','y','signallevel']
     data = [
         #['x','y','strength'],
-        {'x':x,'y':y,'strength':strength}
+        {'x':x,'y':y,'signallevel':signallevel}
     ]
-
-    with open('networkData.csv', mode = 'at', newline='') as d:
-        writer = csv.DictWriter(d, fieldnames=fields)
-        writer.writerows(data)
-        d.close()
-
+    if state != 'Pause':
+        with open('layout/assets/networkData.csv', mode = 'at', newline='') as d:
+            writer = csv.DictWriter(d, fieldnames=fields)
+            writer.writerows(data)
+            d.close()
     return
 '''
 def plot():
@@ -51,5 +51,5 @@ def plot():
             fig.show()
 
         
-            return fig'''
-
+            return fig
+'''
