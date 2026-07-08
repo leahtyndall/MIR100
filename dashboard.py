@@ -1,7 +1,8 @@
-from dash import Dash, html, ctx
+from dash import Dash, html, ctx, Patch
 import layout.Funcs.network as network, layout.Funcs.subscriber as subscriber
 from dash.dependencies import Input, Output, State
-from layout.Funcs.MIRstatus import getBattery, timeRemaining, stateID, getError
+from layout.Funcs.MIRstatus import getBattery, timeRemaining, stateID, getError, misText
+import layout.Funcs.shellyGateControl as sgc 
 import layout.Funcs.missions as missions
 import layout.Funcs.basicFunctions as basicFunctions
 import numpy as np
@@ -18,8 +19,8 @@ from scipy.ndimage import gaussian_filter
 import layout.Funcs.basicFunctions as bf
 import dash_bootstrap_components as dbc
 
-from layout.layout2 import layout2
-
+from layout.layout2 import layout2 
+import layout.layout2 as layoutfile
 
 
 
@@ -74,6 +75,8 @@ colourscale = px.colors.named_colorscales()
 def updateBattery(n):
     battery = getBattery()
     hrs, min, sec = timeRemaining()    
+    if misText == 'Charging... Waiting for new mission...':
+        missions.charging()
     return(
         html.P("Battery: {}%".format(battery)),
         html.P("Time remaining: {}hrs, {}mins, {}secs".format(hrs, min, sec)),
@@ -82,19 +85,71 @@ def updateBattery(n):
 @app.callback(
     Output('state','children'),
     Output('pistonState', 'children'),
-    #Output('pending','children'),
+    Output('gate','children'),
     Input('interval-component','n_intervals')
 )
 def updatemisQue(n):
     state = stateID()
+
     with open('layout/assets/data.txt', 'rt') as f:
         x = f.read()
         f.close()
         if '0' in x:
-            pistonState = 'Pistons up'
-        if '1' in x:
             pistonState = 'Pistons down'
-    return state, pistonState #, text
+        if '1' in x:
+            pistonState = 'Pistons up'
+    #insert gate logic
+    sgc.shellyState()
+
+    
+    with open('layout/assets/gateStat.txt', 'rt') as f:
+        x = f.read()
+        f.close()
+        if '0' in x:
+            gate = 'Gate closed'
+        if '1' in x:
+            gate = 'Gate open'
+    return state, pistonState, gate  #, text
+
+@app.callback(
+    Output('pistonState','style'),
+    Input('interval-component','n_intervals')
+)
+
+def updatePiston(n):
+    pistonStyle=Patch()
+
+    with open('layout/assets/pistonStat.txt', 'rt') as f:
+        p = f.read()
+        #f.close()
+    if p == '0':
+        piston='#AF1D18'
+        pistonStyle['backgroundColor']= piston
+    elif p == '1':
+        piston ='#8FC78F'
+        pistonStyle['backgroundColor']= piston
+
+    return pistonStyle
+
+@app.callback(
+    Output('gate','style'),
+    Input('interval-component','n_intervals')
+)
+
+def updatePiston(n):
+    gateStyle=Patch()
+
+    with open('layout/assets/gateStat.txt', 'rt') as f:
+        g = f.read()
+        f.close()
+    if g == '0':
+        gate='#AF1D18'
+        gateStyle['backgroundColor']=gate
+    elif g == '1':
+        gate='#8FC78F'
+        gateStyle['backgroundColor']=gate
+
+    return gateStyle
 
 
 @app.callback( #buttons
@@ -362,5 +417,5 @@ def graph(n):
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
-    #app.run(host='0.0.0.0', port=8055, debug=False) #run this for use over wifi
+    #app.run(debug=True)
+    app.run(host='0.0.0.0', port=8055, debug=False) #run this for use over wifi

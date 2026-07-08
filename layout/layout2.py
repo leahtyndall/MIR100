@@ -1,6 +1,6 @@
 from dash import Dash, html, dcc
 from dash.dependencies import Input, Output
-
+import layout.Funcs.shellyGateControl as sgc
 import dash_bootstrap_components as dbc
 import dash_player
 import plotly.graph_objects as go
@@ -16,23 +16,29 @@ COLOURS = { #CHANGE TO VODAFONE THEME + ADD LOGOS
     'orange': "#E2870F",
     #'red': "#C52620"
 }
+def updateP():
+    with open('layout/assets/pistonStat.txt', 'rt') as f:
+        p = f.read()
+        #f.close()
+    if p == '0':
+        piston='#AF1D18'
+    elif p == '1':
+        piston ='#8FC78F'
+    return piston
 
-with open('layout/assets/data.txt', 'rt') as f:
-    x = f.read()
-    f.close()
-    if '0' in x:
-        PISTONCOL = {
-            'piston': '#AF1D18'
-        }
-        #pistonState = 'Pistons up'
-    if '1' in x:
-        PISONCOL = {
-            'piston': '#8FC78F'
-        }
-        #pistonState = 'Pistons down'
+    #gate 
+def updateG():
+    with open('layout/assets/gateStat.txt', 'rt') as f:
+        g = f.read()
+        f.close()
+    if g == '0':
+        gate='#AF1D18'
+    elif g == '1':
+        gate='#8FC78F'
+    return gate
+    
 
-COLOURS3 ={'colour'}
-
+    
 
 
 df = pd.read_csv('layout/assets/PositionList.csv')
@@ -84,7 +90,7 @@ layout2 = html.Div(
                     #################################################################      
                             
                     dbc.Row([ #row 2 open                
-                        dbc.Col( #r2c1
+                        dbc.Col(children = [ #r2c1
                             dbc.Row([ #inside r2c1
                                 dbc.Col(html.Div([  #LEFT r2c1          
                                     html.H4('Robot Status:',
@@ -113,50 +119,73 @@ layout2 = html.Div(
                                             'box-shadow':'5px 5px 5px grey'
                                             }
                                 )),
+                                dbc.Col(children=[
+                                    dbc.Row([
+                                        dbc.Col(html.Div([ #r2c1c2 
+                                            html.H4('Current State:', 
+                                                style={
+                                                    'color': COLOURS['white'],
+                                                    'padding':'8px',
+                                                    'backgroundColor': COLOURS['red'],
+                                                    'borderRadius':'10px',
+                                                    'margin':'5px',
+                                                    'verticalAlign':'top',
+                                                    'height':'40px'
+                                                }
+                                            ),
+                                            #html.P('Executing: '),
+                                            html.P(id = 'state')],
+                                        
+                                                style={
+                                                    'color': COLOURS['black'],
+                                                    'width':'100%',
+                                                    'padding':'10px',
+                                                    'backgroundColor': COLOURS['white'],
+                                                    'borderRadius':'10px',
+                                                    'margin':'10px',
+                                                    'verticalAlign':'top',
+                                                    'display': 'inline-block',
+                                                    'height': '150px',
+                                                    'box-shadow':'5px 5px 5px grey'
+                                                    }
+                                        ))
+                                    ]),
+                                    dbc.Row([
+                                        dbc.Col(html.Div([
+                                            html.P('Piston',
+                                                id = 'pistonState',
+                                            style={
+                                                'color': COLOURS['white'],
+                                                'width':'90%',
+                                                'padding':'8px',
+                                                'backgroundColor':'#AF1D18',
+                                                'borderRadius':'10px',
+                                                'margin':'5px',
+                                                'verticalAlign':'left',
+                                                'height':'20px',
+                                                'fontSize': '14px'
+                                            })
+                                           
+                                        ])),
+                                        dbc.Col(html.Div([     
+                                            html.P('Gate',
+                                                id = 'gate',
+                                            style={
+                                                'color': COLOURS['white'],
+                                                'width':'90%',
+                                                'padding':'8px',
+                                                'backgroundColor': '#AF1D18',
+                                                'borderRadius':'10px',
+                                                'margin':'5px',
+                                                'verticalAlign':'right',
+                                                'height':'20px',
+                                                'fontSize': '14px'   
+                                            })
+                                        ]))
+                                    ])
+                                ])
+                            ]),  
 
-                                dbc.Col(html.Div([ #r2c1c2 
-                                    html.H4('Current State:', 
-                                        style={
-                                            'color': COLOURS['white'],
-                                            'padding':'8px',
-                                            'backgroundColor': COLOURS['red'],
-                                            'borderRadius':'10px',
-                                            'margin':'5px',
-                                            'verticalAlign':'top',
-                                            'height':'40px'
-                                        }
-                                    ),
-                                    #html.P('Executing: '),
-                                    html.P(id = 'state'),
-
-                                    html.P(id = 'pistonState',
-                                        style={
-                                            'color': COLOURS['white'],
-                                            'width':'40%',
-                                            'padding':'8px',
-                                            'backgroundColor': PISTONCOL['piston'],
-                                            'borderRadius':'10px',
-                                            'margin':'5px',
-                                            'verticalAlign':'top',
-                                            'height':'30px',
-                                            'font-size': '14px'
-                                        })],
-                                    
-                                        style={
-                                            'color': COLOURS['black'],
-                                            'width':'100%',
-                                            'padding':'10px',
-                                            'backgroundColor': COLOURS['white'],
-                                            'borderRadius':'10px',
-                                            'margin':'10px',
-                                            'verticalAlign':'top',
-                                            'display': 'inline-block',
-                                            'height': '150px',
-                                            'box-shadow':'5px 5px 5px grey'
-                                            }
-                                )
-                                ),
-                            
                             dbc.Row([ #R2c1r2 {middle}
                                 dbc.Col(html.Div([ #col 3
                                     html.H3('Tasks:', 
@@ -269,8 +298,8 @@ layout2 = html.Div(
 
 
                             ])
-                            ])
-                        ),
+                            
+                        ]),
                     #################################################################    
                     #map
                     #################################################################            
@@ -661,12 +690,57 @@ layout2 = html.Div(
         
 
                 ]),
-                ])
+                ]),
+                dcc.Tab(label='Map 🗺️', children=[
+                dbc.Container([  
+                    dbc.Row([#title bar - row 1
+                        dbc.Col(html.Div([ #r1c1
+                            html.H1('MiR100',
+                                style={
+                                    'color': COLOURS['black'],
+                                    'width':'100%',
+                                    'padding':'5px',
+                                    #'backgroundColor': COLOURS['red'],
+                                    'borderRadius':'5px',
+                                    'margin':'0px',
+                                    'verticalAlign':'top'})
+                        ]), width = 8),
+
+                        dbc.Col(html.Div([ # r1c2
+                            html.Img(src='assets/IMR-Primary Logo_RGB.png',
+                                style ={'width': '100%',
+                                    'verticalAlign':'top', 
+                                    'float':'right',
+                                    'margin':'0px'})
+                        ]), width = 2),               
+                        dbc.Col(html.Div([ #r1c3
+                            html.Img(src='assets/vodafone.png',
+                                style ={'width': '60%',
+                                    'verticalAlign':'top', 
+                                    'float':'right',
+                                    'margin':'0px'})
+                        ]), width = 2)
+
+                    ],   
+                    style = {
+                        'backgroundColor': COLOURS['white'],
+                        'width':'100%',
+                        'box-shadow':'5px 5px 5px grey'
+                        }
+                    ), #row1 close
+                    #################################################################    
+                    #       MAP BELOW HERE          
+                    #################################################################      
+                    
+
+                    ]),
+                ]),
+
 
             ]),
         dcc.Interval(
             id='interval-component',
-            interval=2*1000,
+            interval=1*1000,
             n_intervals=0),
 
         dcc.Interval(id='interval-comp2', interval = 4*1000, n_intervals = 0),

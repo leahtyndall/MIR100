@@ -6,7 +6,6 @@ import shellyGateControl as shellyGateControl'''
 import layout.Funcs.basicFunctions as basicFunctions
 from layout.Funcs.API import APImir
 import layout.Funcs.defs as defs
-import layout.Funcs.shellyStatsForMir as shellyStatsForMir
 import layout.Funcs.shellyGateControl as shellyGateControl
 import time, json
 import pandas as pd
@@ -19,6 +18,7 @@ def status():
     
     dataCache = APImir.mirRequest("GET", "/status") 
     
+
 def getBattery():
     statusData = APImir.mirRequest("GET", "/status")
     battery = round(statusData.get("battery_percentage"))
@@ -66,9 +66,6 @@ def mapData():
     encoded = base64.b64encode(open("AllBays.png", "rb").read()).decode()
     return encoded 
 
-def shellyStatus():
-    status = shellyStatsForMir.status()
-    return status
 
 def disToTarget():
     statusData = APImir.mirRequest("GET", "/status")

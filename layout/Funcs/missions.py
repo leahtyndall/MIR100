@@ -13,6 +13,7 @@ def charge():
     check()
     misText = 'Going to charger'
     doMission(defs.chargingStation)
+    charging()
     return 
 
 def cfb1():#collect shelf from bay 1
@@ -48,7 +49,7 @@ def dab2(): #deposit bay 2 dock
     print('leaving')
     doMission(defs.leaveDock)   
     doMission(defs.plc2add)
-    return
+    return 
 
 
 
