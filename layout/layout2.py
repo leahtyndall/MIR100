@@ -136,7 +136,7 @@ layout2 = html.Div(
                                             #html.P('Executing: '),
                                             html.P(id = 'state')],
                                         
-                                                style={
+                                                '''style={
                                                     'color': COLOURS['black'],
                                                     'width':'100%',
                                                     'padding':'10px',
@@ -147,7 +147,7 @@ layout2 = html.Div(
                                                     'display': 'inline-block',
                                                     'height': '150px',
                                                     'box-shadow':'5px 5px 5px grey'
-                                                    }
+                                                    }'''
                                         ))
                                     ]),
                                     dbc.Row([
@@ -157,13 +157,13 @@ layout2 = html.Div(
                                             style={
                                                 'color': COLOURS['white'],
                                                 'width':'90%',
-                                                'padding':'8px',
+                                                'padding':'10px',
                                                 'backgroundColor':'#AF1D18',
                                                 'borderRadius':'10px',
                                                 'margin':'5px',
-                                                'verticalAlign':'left',
-                                                'height':'20px',
-                                                'fontSize': '14px'
+                                                'verticalAlign':'center',
+                                                'height':'30px',
+                                                'fontSize': '12px'
                                             })
                                            
                                         ])),
@@ -173,17 +173,29 @@ layout2 = html.Div(
                                             style={
                                                 'color': COLOURS['white'],
                                                 'width':'90%',
-                                                'padding':'8px',
+                                                'padding':'10px',
                                                 'backgroundColor': '#AF1D18',
                                                 'borderRadius':'10px',
                                                 'margin':'5px',
-                                                'verticalAlign':'right',
-                                                'height':'20px',
-                                                'fontSize': '14px'   
+                                                'verticalAlign':'center',
+                                                'height':'30px',
+                                                'fontSize': '12px'   
                                             })
                                         ]))
                                     ])
-                                ])
+                                ],
+                                style={
+                                                    'color': COLOURS['black'],
+                                                    'width':'100%',
+                                                    'padding':'10px',
+                                                    'backgroundColor': COLOURS['white'],
+                                                    'borderRadius':'10px',
+                                                    'margin':'10px',
+                                                    'verticalAlign':'top',
+                                                    'display': 'inline-block',
+                                                    'height': '150px',
+                                                    'box-shadow':'5px 5px 5px grey'
+                                                    })
                             ]),  
 
                             dbc.Row([ #R2c1r2 {middle}
@@ -305,7 +317,7 @@ layout2 = html.Div(
                     #################################################################            
                         dbc.Col( #r2c2 MAP
                             html.Div([ 
-                                html.Img(src = "http://192.168.30.109:8080/stream?topic=/camera/camera/color/image_raw",
+                                html.Img(src = "http://192.168.30.90:8080/stream?topic=/camera/camera/color/image_raw",
                                          #http://192.168.30.109:8080/stream?topic=/camera/camera/color/image_raw
                                          #'http://192.168.30.102:8080/stream?topic=/riskam/annotated_image',
                                     #src='http://192.168.30.102:8080/stream?topic=/image_raw&type=ros_compressed', 

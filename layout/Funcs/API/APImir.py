@@ -101,4 +101,3 @@ def mirRequestNOJSON(method, endpoint, data = None):   #method=get/post/delete
 
 
 
-
