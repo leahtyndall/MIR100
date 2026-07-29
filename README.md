@@ -27,7 +27,7 @@ pip install numpy dash dash-bootstrap-components pandas plotly requests tinytuya
 
 3. Run websocket to get ros driver data (signal level)
 **NOTE**
-- In 'defs.py' replace rosIP with your ROS2 PC IP.
+- In 'layout2.py' replace line 320 ros webserver link with your ROS PC IP if nessesary
   
 
 - Run dashboard.py & go to IP address given to access dashboard
