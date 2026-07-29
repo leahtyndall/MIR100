@@ -25,8 +25,8 @@ leaveCharger = "afeece9e-76c7-11f1-ae32-f44d306dcb63"
 #######################################################################
 ## footprints
 #######################################################################
-defaultFootprint = '11d39594-283c-11f1-8f8d-f44d306dcb63'
-footprintWithShelf = '54b23ee4-283b-11f1-8f8d-f44d306dcb63'
+defaultFootprint = "1432162c-747e-11f1-8f80-f44d306dcb63"
+footprintWithShelf = "2738d0dd-747e-11f1-8f80-f44d306dcb63"
 
 
 #######################################################################
@@ -38,6 +38,9 @@ leaveDock = "16200ac6-76c2-11f1-ae32-f44d306dcb63"
 plc12 = "b41361fe-7477-11f1-9f07-f44d306dcb63" 
 plc2add = "d999e717-7477-11f1-9f07-f44d306dcb63"
 plc2reset = "ed573610-7477-11f1-9f07-f44d306dcb63"
+plc10 = "93cb6c93-8b37-11f1-9b5d-f44d306dcb63"
+endM = "e5090b20-8a8c-11f1-9b5d-f44d306dcb63"
+resetAllPlcs = "23e832ce-8a8d-11f1-9b5d-f44d306dcb63"
 
 def pick():
     connect_to_relay.pick()

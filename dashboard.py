@@ -162,8 +162,8 @@ def updatePiston(n):
     Input('cfb2', 'n_clicks'),
     Input('b2LEFT', 'n_clicks'),
     Input('dab2', 'n_clicks'),
-    Input('pick', 'n_clicks'),
-    Input('place', 'n_clicks'),
+    Input('endM', 'n_clicks'),
+    Input('resetPLCs', 'n_clicks'),
     Input('clear', 'n_clicks')
     )
 
@@ -185,7 +185,7 @@ def buttonClicked(b1,b2,b3,b4,b5,b6,b7,b8,b9):
         network.taskResponse()
         return 
     elif 'b2LEFT' == ctx.triggered_id:
-        missions.b2LEFT()
+        missions.marathon()
         network.taskResponse()
         return
     elif 'dab2' == ctx.triggered_id:
@@ -193,12 +193,12 @@ def buttonClicked(b1,b2,b3,b4,b5,b6,b7,b8,b9):
         network.taskResponse()
         return 
     #---temporary---
-    elif 'pick' == ctx.triggered_id:  
-        defs.pick()
+    elif 'endM' == ctx.triggered_id:  
+        missions.endM()
         network.taskResponse()
         return 
-    elif 'place' == ctx.triggered_id:  
-        defs.place()
+    elif 'resetPLCs' == ctx.triggered_id:  
+        missions.plcReset()
         network.taskResponse()
         return 
     #---------------
@@ -417,5 +417,5 @@ def graph(n):
 
 
 if __name__ == '__main__':
-    #app.run(debug=True)
-    app.run(host='0.0.0.0', port=8055, debug=False) #run this for use over wifi
+    app.run(debug=True)
+    #app.run(host='0.0.0.0', port=8055, debug=False) #run this for use over wifi

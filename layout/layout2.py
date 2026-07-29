@@ -218,10 +218,10 @@ layout2 = html.Div(
                                     dcc.Button('Deposit at B1',id = 'dab1', n_clicks = 0, style={'color':COLOURS['black']} ),#3
                                     dcc.Button('Collect from B2', id='cfb2', n_clicks = 0, style={'color':COLOURS['black']}),#4
                                     dcc.Button('Deposit at B2', id='dab2', n_clicks = 0, style={'color':COLOURS['black']}),#5
-                                    dcc.Button('Left side of B2', id ='b2LEFT', n_clicks = 0, style={'color':COLOURS['black']}),#6
+                                    dcc.Button('Marathon', id ='b2LEFT', n_clicks = 0, style={'color':COLOURS['black']}),#6
                                     #-===--Temporary-----
-                                    dcc.Button('Pick', id='pick', n_clicks = 0, style={'color':COLOURS['black']}),#7
-                                    dcc.Button('Place', id='place', n_clicks = 0, style={'color':COLOURS['black']}),#7
+                                    dcc.Button('End Marathon', id='endM', n_clicks = 0, style={'color':COLOURS['black']}),#7
+                                    dcc.Button('Reset all PLCs', id='resetPLCs', n_clicks = 0, style={'color':COLOURS['black']}),#7
                                     #-------------------
                                     dcc.Button('Refresh List', id ='refresh', n_clicks = 0, style={'color':COLOURS['red']}),#8
                                     dcc.Button('Clear Queue', id ='clear', n_clicks = 0, style={'color':COLOURS['red']}),#9

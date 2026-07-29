@@ -47,6 +47,7 @@ def disToTarget():
     return round(statusData.get("distance_to_next_target"))
 
 def openGate():
+    #opens the gate as mir is approaching the position in front of the gate - defined in entergate funtion
     while disToTarget() > 4 or disToTarget() == 0:
         time.sleep(1)
         #print(disToTarget())     
@@ -69,27 +70,27 @@ def pickUp():
     while checkPLC1() == 0  :
         time.sleep(1)  
 
-        if checkPLC1() == 1: #waits for docking mission to finish
-            print("Preparing pistons")
-            #connect_to_relay.pick()
-            time.sleep(3)  
-            pistonUp() 
-            setPLC1()
-            #time.sleep(2)
-            return 
+    if checkPLC1() == 1: #waits for docking mission to finish
+        print("Preparing pistons")
+        connect_to_relay.pick()
+        time.sleep(3)  
+        pistonUp() 
+        setPLC1()
+        time.sleep(2)
+        return 
 
 def placeDown():
     while checkPLC1() == 0:
         time.sleep(1)  
 
-        if checkPLC1() == 1:
-            print("Preparing pistons")
-            #connect_to_relay.place()
-            time.sleep(5) 
-            pistonDown()
-            setPLC1() 
-            time.sleep(2)  
-            return
+    if checkPLC1() == 1:
+        print("Preparing pistons")
+        connect_to_relay.place()
+        time.sleep(5) 
+        pistonDown()
+        setPLC1() 
+        time.sleep(2)  
+        return
         
 def pistonUp(): #tells dashboard status of pistons
     with open('layout/assets/pistonStat.txt', 'wt') as f:

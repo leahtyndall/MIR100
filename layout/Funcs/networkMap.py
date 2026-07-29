@@ -15,6 +15,7 @@ colours = {
     'dead':"#BD2D23"
 }
 
+#retrives location data from mir, and signal level from rosDiagnostics() and maps into a CSV file to be read by graph function in dashboard.py
 def getData():
     #print('getting data')
     coords = APImir.mirRequest('GET', '/status').get('position')
@@ -36,20 +37,3 @@ def getData():
             writer.writerows(data)
             d.close()
     return
-'''
-def plot():
-    i = 0
-    getData()
-    #time.sleep(2)
-    with open('networkData.csv', mode = 'r') as d:
-        df = pd.read_csv(d)
-        reader = csv.reader(d)
-        next(reader,None) #skip header
-        for row in reader:
-            fig = px.scatter(df, x='x_column',y='y_column', title='plot')
-            fig.update_traces(marker=dict(size=10, color='red', symbol='circle'))
-            fig.show()
-
-        
-            return fig
-'''

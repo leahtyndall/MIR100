@@ -71,7 +71,7 @@ def da(): #testing for now
     return
 def bay3():
     doMission(defs.LeahsDesk)
-    #doMission(defs.plc2add)   
+    doMission(defs.plc2add)   
     return
 
 def cfb1NP():#collect shelf from bay 1
@@ -124,8 +124,7 @@ def marathonNP(): #no pickup
 
 def marathon():
     i = 0 #laps
-    j = 1
-    while i <= 100 and j < 10:
+    while i <= 100:
         
         #print('checking plc')
         #doMission(defs.plc2reset)
@@ -144,8 +143,8 @@ def marathon():
             
         while checkPLC2() == 4:
 
-            doMission(defs.plc2add)
             print('plc = 4, going to b3')
+            doMission(defs.plc2add)
             bay3()
             time.sleep(10)
             
@@ -160,13 +159,21 @@ def marathon():
             print('plc = 8, depositing at b1')
             dab1()
             i = i + 1
-            print('resetting plc2')
-            
-            doMission(defs.plc12)
-            doMission(defs.leaveDock)
+            print('resetting plcs')
             doMission(defs.plc2reset)
+            doMission(defs.plc10)
+
+        
     return
 #-------------------------------------
+def endM():
+    doMission(defs.endM)
+    return
+
+def plcReset():
+    doMission(defs.resetAllPlcs)
+    return
+
 
 def clearQ():
     return APImir.mirRequest("DELETE", "/mission_queue")
@@ -185,7 +192,7 @@ def b2LEFT(): #deposit left bay2
     inc() #tells program mir is intside gate, & will need to run exit sequence to carry out next mission
     return 
 
-def check(): #checks if mir is inside gate
+def check(): #checks if mir is inside gate, or if mir is in charger
     print('checking if in gate 1')
     with open('layout/assets/data.txt', 'rt') as f:
         x = f.read()
@@ -194,7 +201,7 @@ def check(): #checks if mir is inside gate
             print('Leaving charging station.')
             doMission(defs.leaveCharger) #reverses out of dock to avoid spinning & hitting sides
             dec() #reset 
-        if '1' in x:
+        if '1' in x: #runs a seqence to exit gate before carrying out requested task
             print('In gate, executing exit mission.')
             exitGate1()
             dec() #reset to show not in g1          
