@@ -1,9 +1,7 @@
 from layout.Funcs.API import APIshelly
 #from tuya_relay_python import connect_to_relay
 import time
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.chrome.options import Options
+
 
 from layout.Funcs.API import APImir
 
