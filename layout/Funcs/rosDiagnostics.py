@@ -1,7 +1,6 @@
 import websocket
 import json
 import threading
-from playwright.sync_api import sync_playwright
 import time
 
 #add gesture recognition??

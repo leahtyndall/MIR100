@@ -2,7 +2,6 @@ from dash import Dash, html, dcc
 from dash.dependencies import Input, Output
 import layout.Funcs.shellyGateControl as sgc
 import dash_bootstrap_components as dbc
-import dash_player
 import plotly.graph_objects as go
 import layout.Funcs.missions as mis
 import pandas as pd
