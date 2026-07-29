@@ -316,7 +316,7 @@ layout2 = html.Div(
                     #################################################################            
                         dbc.Col( #r2c2 MAP
                             html.Div([ 
-                                html.Img(src = "http://192.168.30.90:8080/stream?topic=/camera/camera/color/image_raw",
+                                html.Img(src = "http://0.0.0.0:8080/stream?topic=/camera/color/image_raw",
                                          #http://192.168.30.109:8080/stream?topic=/camera/camera/color/image_raw
                                          #'http://192.168.30.102:8080/stream?topic=/riskam/annotated_image',
                                     #src='http://192.168.30.102:8080/stream?topic=/image_raw&type=ros_compressed', 

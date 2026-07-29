@@ -1,6 +1,6 @@
 Run dashboard.py & go to IP adress given to access dashboard
 
-Dependencies:
+##Dependencies:
 - numpy
 - dash
 - dash-bootstrap-components
@@ -11,7 +11,30 @@ Dependencies:
 - websocket-client
 - scipy
 
-Summary of files:
+Create directory & virtual enviornment & install
+```
+mkdir mir_dash && cd mir_dash
+sudo apt install python3.8-venv #install virtual enviornments
+python3 -m venv venv
+source venv/bin/activate
+pip install numpy dash dash-bootstrap-components pandas plotly requests tinytuya websocket-client scipy shapely
+```
+
+
+# Installation:
+1. Go to directory `cd mir_dash`
+2. Clone repository `git clone https://github.com/leahtyndall/MIR100.git`
+
+3. Run websocket to get ros driver data (signal level)
+**NOTE**
+- In 'layout2.py' replace line 320 ros webserver link with your ROS PC IP if nessesary
+  
+
+- Run dashboard.py & go to IP address given to access dashboard
+
+
+
+##Summary of files:
 - assets - images, cvs data files, txt logic files ect
 - APIs - Connect to Mir/shelly to handle requests
 - defs.py - Defines missions from mir
